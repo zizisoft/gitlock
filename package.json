@@ -1,0 +1,22 @@
+{
+    "name": "gitlock",
+    "version": "0.0.0",
+    "description": "Coming soon!",
+    "keywords": ["git", "lock"],
+    "author": "Zhenzhen Zhan <zhanzhenzhen@hotmail.com>",
+    "homepage": "https://github.com/zhanzhenzhen/gitlock",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/zhanzhenzhen/gitlock.git"
+    },
+    "dependencies": {
+    },
+    "engines": {
+        "node": ">=4.0.0"
+    },
+    "bin": {
+        "gitlock": "./bin/gitlock"
+    },
+    "preferGlobal": true
+}

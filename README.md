@@ -37,9 +37,10 @@ Synopsis 5:
 
 ```
 gitlock verify
+gitlock verify all
 ```
 
-Verify all locks.
+Verify the current lock or all locks.
 
 Configuration
 =============

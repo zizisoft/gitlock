@@ -8,7 +8,7 @@ gitlock-sha256-b57b6e92da2b3e5bd6ceef80d462a15d9f214e3bd15d77c0dfa0cd72061ed6fb-
 gitlock-sha256-b57b6e92da2b3e5bd6ceef80d462a15d9f214e3bd15d77c0dfa0cd72061ed6fb-001
 ```
 
-For this commit, we make these tags:
+For the current commit, we make these tags:
 
 Tag `gitlock-sha256-56aede86d0ad8e34e5b43e0d1efb75578c389e1514500baf8f9edd1ac35de402-000`
 -----------------------------------------------------------------------------------------
@@ -24,7 +24,7 @@ parent sha256-b57b6e92da2b3e5bd6ceef80d462a15d9f214e3bd15d77c0dfa0cd72061ed6fb
 message goes here
 ```
 
-Note: All files (including those unmodified) are listed. This tag message must end with a Unix newline character.
+Note: All files (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `message goes here` is the commit message, while the whole text is the tag message.
 
 Tag `gitlock-sha256-56aede86d0ad8e34e5b43e0d1efb75578c389e1514500baf8f9edd1ac35de402-001`
 -----------------------------------------------------------------------------------------

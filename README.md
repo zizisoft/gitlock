@@ -120,3 +120,9 @@ gitlock -m 'Fix a bug'
 ```
 
 This will first run `git commit -m 'Fix a bug'`, then run `gitlock`.
+
+```bash
+git push --tags
+```
+
+This will push all the locks to the remote server.

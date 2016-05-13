@@ -53,6 +53,8 @@ Note: It timestamps the previous tag message in UTF-8. This tag message must end
 When SHA-256 Becomes Weak
 =========================
 
+SHA-256 is very strong. It can last several decades. But when the day comes, we can replace it with a new hash algorithm.
+
 For example we replace it with a new hash algorithm `sha3-256`. First, for every old tag, write the tag name and the tag message (separated by an empty line), like this:
 
 ```
@@ -94,7 +96,7 @@ parent sha3-256-90dd32771833d9094e3e30947c2653151dd3b1923d92468ee882cce3d001abcc
 message goes here
 ```
 
-Don't forget to add one or more timestamps:
+Then, add one or more timestamps:
 
 Tag `gitlock-001-sha3-256-9f5a93cc388fb26ad73f6cf0c5f474eb03ff6a37a7c6ce9881ca0664ddf13b94`
 -------------------------------------------------------------------------------------------
@@ -104,3 +106,5 @@ timestamps
 
 base64-bGpnbHNqIGdramxzZCBmamxnYSBqc29mIGlqYW93O2VqZm87cyBocmZncHM4ZXV0MHdwNHU1dDA5cHdldXJncHNldXJmb3BzdWp3ZW9mcnUzOXc0cndvb3A4IHUzcjhwcTh1MjAzOXVycW9wMzR1cmVvaXNyO2dzZDtoZmcgbHNqZmw7c2psZmtqIHNsZmtnamxzamZvaXNldWZvM3N1NHQ7aW9zZXJqZztpc2VyaiBnZjtpc2ZpbGdqcztsaXIgamY=
 ```
+
+This way, we migrate from SHA-256 to SHA3-256. Later, even if the old hash algorithm is broken, the proof chain is still valid. Note that we should do the migration before the old hash algorithm is completely broken.

@@ -117,4 +117,15 @@ base64-bGpnbHNqIGdramxzZCBmamxnYSBqc29mIGlqYW93O2VqZm87cyBocmZncHM4ZXV0MHdwNHU1d
 
 This way, we migrate from SHA-256 to SHA3-256. Later, even if the old hash algorithm is broken, the old info is still valid. Note that we should do the migration before the old hash algorithm is completely broken.
 
-There can be nested `old start` and `old end` when the new hash algorithm is retired.
+After another several dedades, when the new hash algorithm is retired, there can be nested `old start` and `old end`.
+
+FAQ
+====
+
+**Q: Are `000`, `001` and `002` redundant?**
+
+A: Yes, they are redundant to the machine, but more readable to the human.
+
+**Q: Nested `old start` and `old end` is ugly! Why not encode the whole old stuff to Base64, or use JSON?**
+
+A: For avoiding unreasonable size expansion. If use Base64, then imagine there are 100 nested levels (I know it may be after 2000 years, but I want it to have no flaw). Every level will expand by 33%. Finally there will be a huge size. The same goes for JSON, because JSON will escape `"` to `\"`, then to `\\\"`, then to `\\\\\\\"`. It will expand even faster than Base64.

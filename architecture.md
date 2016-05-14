@@ -124,7 +124,7 @@ FAQ
 
 **Q: Does the SHA-256 lock rely on the SHA-1 commit ID?**
 
-A: No, it doesn't rely on any SHA-1. If it relies on any SHA-1 then the whole structure will be as weak as SHA-1. That's why we must write the hash value in the tag name, because tag names are stored as file name, not in a Git object pointed to by a SHA-1 hash. See your `.git/refs/tags` directory.
+A: No, it doesn't rely on any SHA-1. If it relies on any SHA-1 then the whole structure will be as weak as SHA-1. That's why we must write the hash value in the tag name, because tag names are stored as file name, not in a Git object pointed to by a SHA-1 hash. See your `.git/refs/tags` directory. (The only use for the SHA-1 hash is to quickly find a tag message. After found, it must be validated using the SHA-256 digest in the tag name.)
 
 **Q: Are `000`, `001` and `002` redundant?**
 

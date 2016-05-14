@@ -26,7 +26,7 @@ base64-bWVzc2FnZSBnb2VzIGhlcmU=
 nonce 7b2b0ca6e9515eabc2ff1bf9f58db921
 ```
 
-Note: All files (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. The SHA-256 value in the tag name is the digest of the tag message.
+Note: All files (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. `nonce` is a 128-bit random value. The SHA-256 value in the tag name is the digest of the tag message.
 
 Tag `gitlock-001-sha256-79765cdc4e0d44c429875f2b9089139dc5d977883beea11286ab428b9ec209a8`
 -----------------------------------------------------------------------------------------
@@ -149,3 +149,7 @@ A: Yes, they are redundant to the machine, but more readable to the human.
 **Q: Nested `old start` and `old end` is ugly! Why not encode the whole old stuff to Base64, or use JSON?**
 
 A: For avoiding unreasonable size expansion. If use Base64, then imagine there are 100 nested levels (I know it may be after 2000 years, but I want it to have no flaw). Every level will expand by 33%. Finally there will be a huge size. The same goes for JSON, because JSON will escape `"` to `\"`, then to `\\\"`, then to `\\\\\\\"`. It will expand even faster than Base64.
+
+**Q: Why is there a `nonce`?**
+
+A: Sometimes, if working on two branches, two commits may have the same content. Without `nonce`, if the two locks have the same parent or their parents have the same content, it will result in duplicate tag name.

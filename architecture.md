@@ -26,11 +26,15 @@ base64-bWVzc2FnZSBnb2VzIGhlcmU=
 nonce 7b2b0ca6e9515eabc2ff1bf9f58db921
 ```
 
-Note: All files (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. `nonce` is a 128-bit random value. The SHA-256 value in the tag name is the digest of the tag message.
+Note: All files and directories (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. `nonce` is a 128-bit random value. The SHA-256 value in the tag name is the digest of the tag message.
 
 For the first lock, there's no parent, so there should be no parent line (also no empty line after it). If there're 2 or more parents, write multiple parent lines (no empty lines in between).
 
 If the commit message is empty, the Base64 line should be `base64-`.
+
+From this model you can find we do allow empty directories, though Git currently prevents it.
+
+Git submodules (if any) are ignored.
 
 Tag `gitlock-001-sha256-79765cdc4e0d44c429875f2b9089139dc5d977883beea11286ab428b9ec209a8`
 -----------------------------------------------------------------------------------------
@@ -46,7 +50,7 @@ base64-ZmFqc29pZCBmb2lhcyBqZXJmbGFzamRmDQphIHMNCmRmDQphc2RmDQphc2QNCmYNCg0KYXNka
 nonce 1b6ae5ef6ef1a1454dbeab7519909472
 ```
 
-Note: It signs the previous tag message in UTF-8. This tag message must end with a Unix newline character.
+Note: It signs the `000` tag message in UTF-8. This `001` tag message must end with a Unix newline character.
 
 Tag `gitlock-002-sha256-681f7a8b6ea76a7171302bed3d77ecd7496ccb5c5068cb680278f6a8f1bccaa8`
 -----------------------------------------------------------------------------------------
@@ -62,7 +66,7 @@ base64-amdsc2tkaiByZ29pcztqIGxlZjtqbGlhZXM7ZWpyZ2xpO2Fqd2VzbztmamF3ZWlvO2hpb3RhZ
 nonce 019528aa19bacb9c1606d1bd2767954b
 ```
 
-Note: It timestamps the previous tag message in UTF-8. This tag message must end with a Unix newline character.
+Note: It timestamps the `001` tag message in UTF-8. This `002` tag message must end with a Unix newline character.
 
 When SHA-256 Becomes Weak
 =========================
@@ -157,3 +161,7 @@ A: For avoiding unreasonable size expansion. If use Base64, then imagine there a
 **Q: Why is there a `nonce`?**
 
 A: Sometimes, if working on two branches, two commits may have the same content. Without `nonce`, if the two locks have the same parent or their parents have the same content, it will result in duplicate tag name.
+
+**Q: Why are submodules ignored?**
+
+A: Submodules may be maintained by other people. It's very likely that other people don't use GitLock so that there's no lock to point to. Also, we can't point to the SHA-1 commit ID for security reasons. In addition, recursive submodules will increase the complexity. But in the future, we may support adding submodules (if they are locked).

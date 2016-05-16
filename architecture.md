@@ -38,6 +38,8 @@ From this model you can find we do allow empty directories, though Git currently
 
 Git submodules (if any) are ignored.
 
+All text encodings are UTF-8 without BOM.
+
 Tag `gitlock-001-sha256-503eeff62be83f723fc9153dd6b024ed71ad4b7d2323390cb6a3a0ae93aed3af`
 -----------------------------------------------------------------------------------------
 
@@ -52,7 +54,7 @@ base64-ZmFqc29pZCBmb2lhcyBqZXJmbGFzamRmDQphIHMNCmRmDQphc2RmDQphc2QNCmYNCg0KYXNka
 nonce 1b6ae5ef6ef1a1454dbeab7519909472
 ```
 
-Note: It signs the `000` tag message in UTF-8. This `001` tag message must end with a Unix newline character.
+Note: It signs the `000` tag message. The `001` tag message must end with a Unix newline character.
 
 Tag `gitlock-002-sha256-7c481d4a4d252649fafd86edae0116b7d41d361b8b4b8ec68f7a034efcc50e81`
 -----------------------------------------------------------------------------------------
@@ -68,7 +70,7 @@ base64-amdsc2tkaiByZ29pcztqIGxlZjtqbGlhZXM7ZWpyZ2xpO2Fqd2VzbztmamF3ZWlvO2hpb3RhZ
 nonce 019528aa19bacb9c1606d1bd2767954b
 ```
 
-Note: It timestamps the `001` tag message in UTF-8. This `002` tag message must end with a Unix newline character.
+Note: It timestamps the `001` tag message. The `002` tag message must end with a Unix newline character.
 
 When SHA-256 Becomes Weak
 =========================

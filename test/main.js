@@ -25,6 +25,7 @@ Desktop.ini
 # Node
 node_modules
 
-*.log`);
+*.log
+`);
     exec("git add . && git commit -m init");
 });

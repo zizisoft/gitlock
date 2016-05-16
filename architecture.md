@@ -28,7 +28,7 @@ base64-bWVzc2FnZSBnb2VzIGhlcmU=
 nonce 7b2b0ca6e9515eabc2ff1bf9f58db921
 ```
 
-Note: All files and directories (including those unmodified) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. `nonce` is a 128-bit random value. The SHA-256 value in the tag name is the digest of the tag message.
+Note: All files and directories (including those unmodified, also including subdirectories recursively) are listed. This tag message must end with a Unix newline character. In this example `base64-bWVzc2FnZSBnb2VzIGhlcmU=` is the commit message, while the whole text is the tag message. `nonce` is a 128-bit random value. The SHA-256 value in the tag name is the digest of the tag message. Unlike Git, the SHA-256 value in the file list is the raw file's hash without any additions or transforms, so that people can verify your proof more easily.
 
 For the first lock, there's no parent, so there should be no parent line (also no empty line after it). If there're 2 or more parents, write multiple parent lines (no empty lines in between).
 

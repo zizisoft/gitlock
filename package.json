@@ -12,6 +12,9 @@
     },
     "dependencies": {
     },
+    "devDependencies": {
+        "rimraf": "2.x"
+    },
     "engines": {
         "node": ">=4.0.0"
     },

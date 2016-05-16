@@ -3,7 +3,7 @@ GitLock
 
 Add a SHA-256 wrapper to increase the security of Git. It can also protect your copyright by adding timestamps from trusted Time Stamping Authority.
 
-It uses tags to store these info, so it's fully compatible with the current Git. For details see "architecture.md".
+In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with every Git version, GitHub, and BitBucket. For details see "architecture.md".
 
 Synopsis 1:
 

@@ -1,3 +1,5 @@
+"use strict";
+
 let $fs = require("fs");
 let $cp = require("child_process");
 let rm = require("rimraf");

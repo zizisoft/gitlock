@@ -55,5 +55,5 @@ node_modules
 
     exec("git checkout master");
     $fs.writeFileSync("temp/e.txt", "e\n");
-    exec("git add . && git commit --allow-empty-message");
+    exec("git add . && git commit --allow-empty-message -m \"\"");
 });

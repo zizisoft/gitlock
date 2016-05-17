@@ -47,4 +47,13 @@ node_modules
     exec("git add . && git commit -m c");
 
     exec("git merge -m m branch1 && git branch -d branch1");
+
+    exec("git branch branch2");
+    exec("git checkout branch2");
+    $fs.writeFileSync("temp/d", "d\n");
+    exec("git add . && git commit -m d");
+
+    exec("git checkout master");
+    $fs.writeFileSync("temp/e.txt", "e\n");
+    exec("git add . && git commit --allow-empty-message");
 });

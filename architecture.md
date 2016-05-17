@@ -77,7 +77,9 @@ Note: It timestamps the `001` tag message. The `002` tag message must end with a
 When SHA-256 Becomes Weak
 =========================
 
-SHA-256 is very strong. It can last several decades. But when the day comes, we can replace it with a new hash algorithm.
+SHA-256 is very strong. It can last several decades. -- BitCoin inventor Satoshi Nakamoto
+
+But when the day comes, we can replace it with a new hash algorithm.
 
 For example we replace it with a new hash algorithm `sha3-256`. We delete the old tags, then a new chain begins with the first tag containing the old info. It will be:
 

@@ -35,6 +35,13 @@ node_modules
 
     $fs.writeFileSync("temp/a.txt", "file body 1\n");
     $fs.writeFileSync("temp/我 你.txt", "文件 2\n");
+    $fs.mkdirSync("temp/dir1");
+    $fs.writeFileSync("temp/dir1/a.txt", "aaaaa\n");
+    $fs.writeFileSync("temp/dir1/b.txt", "bbbbb\n");
+    $fs.mkdirSync("temp/dir2");
+    $fs.writeFileSync("temp/dir2/a.txt", "aaaaa\n");
+    $fs.writeFileSync("temp/dir2/b.txt", "bbbbbbbb\n");
+    $fs.writeFileSync("temp/dir2/c.txt", "ccccc\n");
     exec("git add .");
     exec("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
 

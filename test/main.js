@@ -59,6 +59,6 @@ node_modules
     exec("git add . && git commit --allow-empty-message -m \"\"");
 
     it("simple", () => {
-        exec("node ../lib/main");
+        console.log(exec("node ../lib/main", {encoding: "utf8"}));
     });
 });

@@ -36,4 +36,13 @@ node_modules
     $fs.writeFileSync("temp/我 你.txt", "文件 2\n");
     exec("git add .");
     exec("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
+
+    exec("git branch branch1");
+    exec("git checkout branch1");
+    $fs.writeFileSync("temp/b", Buffer.from([0, 1, 2]));
+    exec("git add . && git commit -m b");
+
+    exec("git checkout master");
+    $fs.writeFileSync("temp/c.txt", "c\n");
+    exec("git add . && git commit -m c");
 });

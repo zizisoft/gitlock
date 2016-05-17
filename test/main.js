@@ -45,4 +45,6 @@ node_modules
     exec("git checkout master");
     $fs.writeFileSync("temp/c.txt", "c\n");
     exec("git add . && git commit -m c");
+
+    exec("git merge -m m branch1 && git branch -d branch1");
 });

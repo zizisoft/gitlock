@@ -77,6 +77,14 @@ gitlock list
 
 List all locks in chronological order.
 
+Synopsis 9:
+
+```
+gitlock log
+```
+
+Show the commit logs in combination with lock names and other tag info.
+
 Configuration
 =============
 

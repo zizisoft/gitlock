@@ -61,6 +61,14 @@ Although people can use the `verify` subcommand to verify your repo, not all peo
 
 In the generated directory there's a readme file. Everyone can follow the steps in it to prove your copyright.
 
+Synopsis 7:
+
+```
+gitlock show <commit>
+```
+
+Show lock information that belongs to <commit>.
+
 Configuration
 =============
 

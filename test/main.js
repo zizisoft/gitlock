@@ -66,6 +66,6 @@ node_modules
     exec("git add . && git commit --allow-empty-message -m \"\"");
 
     it("simple", () => {
-        console.log(exec("node ../lib/main", {encoding: "utf8"}));
+        console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
     });
 });

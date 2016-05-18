@@ -64,10 +64,18 @@ In the generated directory there's a readme file. Everyone can follow the steps 
 Synopsis 7:
 
 ```
-gitlock show <commit>
+gitlock show <object>
 ```
 
-Show lock information that belongs to <commit>.
+Show lock information in `<object>`. If `<object>` is a lock, it shows the lock's information. If `<object>` is a commit, then it shows information of all locks that belong to the commit. `<object>` can be any Git object, tag, or ref.
+
+Synopsis 8:
+
+```
+gitlock list
+```
+
+List all locks in chronological order.
 
 Configuration
 =============

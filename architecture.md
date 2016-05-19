@@ -155,6 +155,86 @@ This way, we migrate from SHA-256 to SHA3-256. Later, even if the old hash algor
 
 After another several dedades, when the new hash algorithm is retired, there can be nested `old start` and `old end`.
 
+Diff Directory Structure
+========================
+
+If it has 1000 files, every tag message will be very big. That's unreasonable. So, we also support another directory structure notation: diff format. All directory structures (including those in `old start` and `old end`) can be in diff format. The diff format is only for storing. While calculating the SHA-256 hash for the tag name, it must use its equivalent full format.
+
+For example, first commit:
+
+```
+040000 sha256-0000000000000000000000000000000000000000000000000000000000000000 a
+100644 sha256-a0143ab908169aa688632a8c6f2869d0322e1c1dbe46bcaf4563081aace1b716 a/a
+100644 sha256-a6e8fd7b89e6b911190c740f8f164a3034d719aab6e389e9ac173c3bf0070bc4 a/b
+100644 sha256-7a40a6000885560fdf305b7af97717545c1fd703bed5e803d92409b97778c9cd x
+100644 sha256-ae4a652876494f5143f0f6093220341818cbcfa1e634152f526a6d4056a4cb83 y
+100644 sha256-c2ebd685e25f5b856dc5e58a987ed0307b316427c977de6f3354559a7c06d1de z
+```
+
+Second commit:
+
+```
+040000 sha256-0000000000000000000000000000000000000000000000000000000000000000 aaa
+100644 sha256-a0143ab908169aa688632a8c6f2869d0322e1c1dbe46bcaf4563081aace1b716 aaa/a
+100644 sha256-7a40a6000885560fdf305b7af97717545c1fd703bed5e803d92409b97778c9cd x
+100644 sha256-a60cafe440f9b0d66bfc2b486fe93ea0ea1b8fc0fb999a8c09f3cf91b85bcc5e y
+100644 sha256-c2ebd685e25f5b856dc5e58a987ed0307b316427c977de6f3354559a7c06d1de z
+100644 sha256-7b0a67ab9923dba7524d8e49586671539ff0720f003a81866baac35a3a78f048 z1
+```
+
+Third commit:
+
+```
+040000 sha256-0000000000000000000000000000000000000000000000000000000000000000 aaa
+100644 sha256-a0143ab908169aa688632a8c6f2869d0322e1c1dbe46bcaf4563081aace1b716 aaa/a
+100644 sha256-7a40a6000885560fdf305b7af97717545c1fd703bed5e803d92409b97778c9cd x
+100644 sha256-3b14d2345b86c5aceb6c9a8bbd9b9385935692b77ba45ceb9b57aa62d2757e5c x1
+100644 sha256-a60cafe440f9b0d66bfc2b486fe93ea0ea1b8fc0fb999a8c09f3cf91b85bcc5e y
+100644 sha256-c2ebd685e25f5b856dc5e58a987ed0307b316427c977de6f3354559a7c06d1de z
+100644 sha256-7b0a67ab9923dba7524d8e49586671539ff0720f003a81866baac35a3a78f048 z1
+```
+
+The second can be shortened to:
+
+```
+c-name 0 aaa
+d 2 1
+c 4 1
+100644 sha256-a60cafe440f9b0d66bfc2b486fe93ea0ea1b8fc0fb999a8c09f3cf91b85bcc5e y
+a 6
+100644 sha256-7b0a67ab9923dba7524d8e49586671539ff0720f003a81866baac35a3a78f048 z1
+```
+
+The third can be shortened to:
+
+```
+a 3
+100644 sha256-3b14d2345b86c5aceb6c9a8bbd9b9385935692b77ba45ceb9b57aa62d2757e5c x1
+```
+
+The second diff is based on the first full format. The third diff is based on the second diff.
+
+We support 4 actions:
+
+- `a <line-index>` (add)
+- `d <line-index> <line-count>` (delete)
+- `c <line-index> <line-count>` (change)
+- `c-name <line-index> <name>` (change name)
+
+`<line-index>` is a zero-based number. The first line is 0, not 1.
+
+Both `<line-index>` and `<line-count>` mean the base, not the target.
+
+For `a`, the `<line-index>` means to insert before this line. To append to the end, set it to the max line index plus 1 (i.e. the total line count).
+
+An `a` or `c` line must be followed by one or more file/directory lines.
+
+For now, in `c-name`, the `<line-index>` can only point to an item of mode `040000`. The `<name>` must only contain the last segment of the path. For example changing the directory `a/b/c` to `a/b/c1`, then `<name>` is `c1`, not `a/b/c1`.
+
+If applying to mode `040000` (presently the only allowed use), `c-name` will change all items related to this directory, not only the `040000` item.
+
+There can be multiple `c-name` fields. `c-name` must appear at the top. On processing, it first do renaming with `c-name`, then apply the other diffs.
+
 FAQ
 ====
 

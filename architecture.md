@@ -197,7 +197,7 @@ Third commit:
 The second can be shortened to:
 
 ```
-c-name 0 aaa
+c-path 0 aaa
 d 2 1
 c 4 1
 100644 sha256-a60cafe440f9b0d66bfc2b486fe93ea0ea1b8fc0fb999a8c09f3cf91b85bcc5e y
@@ -219,7 +219,7 @@ We support 4 actions:
 - `a <line-index>` (add)
 - `d <line-index> <line-count>` (delete)
 - `c <line-index> <line-count>` (change)
-- `c-name <line-index> <name>` (change name)
+- `c-path <line-index> <path>` (change path)
 
 `<line-index>` is a zero-based number. The first line is 0, not 1.
 
@@ -229,11 +229,13 @@ For `a`, the `<line-index>` means to insert before this line. To append to the e
 
 An `a` or `c` line must be followed by one or more file/directory lines.
 
-For now, in `c-name`, the `<line-index>` can only point to an item of mode `040000`. The `<name>` must only contain the last segment of the path. For example changing the directory `a/b/c` to `a/b/c1`, then `<name>` is `c1`, not `a/b/c1`.
+For now, in `c-path`, the `<line-index>` can only point to an item of mode `040000`. The `<path>` must be the full path. So, if you want to rename the directory `a/b/c` to `a/b/c1`, then `<path>` should be `a/b/c1`, not `c1`.
 
-If applying to mode `040000` (presently the only allowed use), `c-name` will change all items related to this directory, not only the `040000` item.
+Apart from renaming, `c-path` also helps if you want to move directories. For example, to change `a/x` to `c/x` (i.e. move directory `x` from `a` to `c`), simply set `<path>` to `c/x`. So `c-path` is similar to the Bash `mv` command.
 
-There can be multiple `c-name` fields. `c-name` must appear at the top. On processing, it first do renaming with `c-name`, then apply the other diffs.
+If applying to mode `040000` (presently the only allowed use), `c-path` will change all items related to this directory, not only the `040000` item.
+
+There can be multiple `c-path` fields. `c-path` must appear at the top. On restoring the full format, it will first apply `c-path`, then apply the other diffs.
 
 FAQ
 ====

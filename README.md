@@ -85,6 +85,14 @@ gitlock log
 
 Show the commit logs in combination with lock names and other tag info.
 
+Synopsis 10:
+
+```
+gitlock remove [--last | --commit | --all]
+```
+
+Remove locks. If `--all`, it removes all locks. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `000`, `001`, `002` sequence in HEAD commit. The default is `--commit`.
+
 Configuration
 =============
 

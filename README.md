@@ -9,21 +9,24 @@ Synopsis 1:
 
 ```
 gitlock
+gitlock -m <commit-message>
+gitlock commit
+gitlock commit ...
 ```
 
-If there're files to commit, it will commit with an empty message and lock. If there's nothing to commit, it will just lock. Note that on first time running it may take some time because it will lock all history commits.
+Lock. If there're files not committed, it will commit before locking.
+
+If `gitlock` without any arguments, when committing the commit message will be empty.
+
+If `gitlock commit`, when committing it will show an editor, like `git commit`.
+
+If `gitlock commit ...`, it's equivalent to `git commit ...` then `gitlock`.
+
+Note that on the first time running it may take some minutes, because it will lock all history commits.
 
 After locked, it can automatically sign or timestamp based on your configuration.
 
 Synopsis 2:
-
-```
-gitlock ...
-```
-
-Equivalent to `git commit ... && gitlock`. The lock message is the same as the commit message.
-
-Synopsis 3:
 
 ```
 gitlock sign
@@ -33,7 +36,7 @@ Sign the lock. But if you just want to prove your copyright, you really don't ne
 
 If it hasn't been locked, it will lock first.
 
-Synopsis 4:
+Synopsis 3:
 
 ```
 gitlock timestamp
@@ -43,7 +46,7 @@ Add a trusted timestamp to the lock. If it hasn't been locked, it will lock firs
 
 IMPORTANT: If your repo is public, you should timestamp before push. Timestamping after push is weak.
 
-Synopsis 5:
+Synopsis 4:
 
 ```
 gitlock push
@@ -55,7 +58,7 @@ If it hasn't been locked, it will lock first.
 
 Note that you can also use `git push --tags` to push locks, but you'll lose the benefit of automatically locking, signing, or timestamping.
 
-Synopsis 6:
+Synopsis 5:
 
 ```
 gitlock verify
@@ -64,7 +67,7 @@ gitlock verify --all
 
 Verify the current lock or all locks, including the signatures and timestamps.
 
-Synopsis 7:
+Synopsis 6:
 
 ```
 gitlock proof [<directory>]
@@ -77,7 +80,7 @@ Although people can use the `verify` subcommand to verify your repo, not all peo
 
 In the generated directory there's a readme file. Everyone can follow the steps in it to prove your copyright.
 
-Synopsis 8:
+Synopsis 7:
 
 ```
 gitlock show <object>
@@ -85,7 +88,7 @@ gitlock show <object>
 
 Show lock information in `<object>`. If `<object>` is a lock, it shows the lock's information. If `<object>` is a commit, then it shows information of all locks that belong to the commit. `<object>` can be any Git object, tag, or ref.
 
-Synopsis 9:
+Synopsis 8:
 
 ```
 gitlock list
@@ -93,7 +96,7 @@ gitlock list
 
 List all locks in chronological order.
 
-Synopsis 10:
+Synopsis 9:
 
 ```
 gitlock log
@@ -101,7 +104,7 @@ gitlock log
 
 Show the commit logs in combination with lock names and other tag info.
 
-Synopsis 11:
+Synopsis 10:
 
 ```
 gitlock remove [--last | --commit | --all]

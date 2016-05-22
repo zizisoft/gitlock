@@ -13,6 +13,8 @@ gitlock
 
 If there're files to commit, it will commit with an empty message and lock. If there's nothing to commit, it will just lock. Note that on first time running it may take some time because it will lock all history commits.
 
+After locked, it can automatically sign or timestamp based on your configuration.
+
 Synopsis 2:
 
 ```
@@ -39,7 +41,21 @@ gitlock timestamp
 
 Add a trusted timestamp to the lock. If it hasn't been locked, it will lock first.
 
+IMPORTANT: If your repo is public, you should timestamp before push. Timestamping after push is weak.
+
 Synopsis 5:
+
+```
+gitlock push
+```
+
+Push commits and tags (including locks). Before push, it can automatically sign or timestamp based on your configuration.
+
+If it hasn't been locked, it will lock first.
+
+Note that you can also use `git push --tags` to push locks, but you'll lose the benefit of automatically locking, signing, or timestamping.
+
+Synopsis 6:
 
 ```
 gitlock verify
@@ -48,7 +64,7 @@ gitlock verify --all
 
 Verify the current lock or all locks, including the signatures and timestamps.
 
-Synopsis 6:
+Synopsis 7:
 
 ```
 gitlock proof [<directory>]
@@ -61,7 +77,7 @@ Although people can use the `verify` subcommand to verify your repo, not all peo
 
 In the generated directory there's a readme file. Everyone can follow the steps in it to prove your copyright.
 
-Synopsis 7:
+Synopsis 8:
 
 ```
 gitlock show <object>
@@ -69,7 +85,7 @@ gitlock show <object>
 
 Show lock information in `<object>`. If `<object>` is a lock, it shows the lock's information. If `<object>` is a commit, then it shows information of all locks that belong to the commit. `<object>` can be any Git object, tag, or ref.
 
-Synopsis 8:
+Synopsis 9:
 
 ```
 gitlock list
@@ -77,7 +93,7 @@ gitlock list
 
 List all locks in chronological order.
 
-Synopsis 9:
+Synopsis 10:
 
 ```
 gitlock log
@@ -85,7 +101,7 @@ gitlock log
 
 Show the commit logs in combination with lock names and other tag info.
 
-Synopsis 10:
+Synopsis 11:
 
 ```
 gitlock remove [--last | --commit | --all]
@@ -134,15 +150,28 @@ gitlock config lock-default <value>
 
 This represents the behavior when typing `gitlock` without and subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
 
-For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking.
+For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to use this and timestamp on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
+
+Synopsis 4:
+
+```
+gitlock config push-default <value>
+```
+
+This represents the behavior when typing `gitlock push`. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
+
+For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to use this and timestamp on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 
 Synopsis 5:
 
 ```
 gitlock config private <pem-file>
+gitlock config private
 ```
 
 If you want to sign, you can set this config. `<pem-file>` file must contain the private key (may also contain the certificate). For how to convert a certificate to PEM format, see OpenSSL manual.
+
+If there's no `<pem-file>`, it will set this config to nothing.
 
 Examples
 ========
@@ -154,7 +183,8 @@ gitlock -m 'Fix a bug'
 This will first run `git commit -m 'Fix a bug'`, then run `gitlock`.
 
 ```bash
-git push --tags
+gitlock timestamp
+gitlock push
 ```
 
-This will push all the locks to the remote server.
+This will timestamp and push commits including locks to the remote server.

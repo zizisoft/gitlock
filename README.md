@@ -3,7 +3,7 @@ GitLock
 
 Add a SHA-256 wrapper to increase the security of Git. It can also protect your copyright by adding timestamps from trusted Time Stamping Authority.
 
-In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with every Git version, GitHub, and BitBucket. For details see "architecture.md".
+In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md".
 
 Synopsis 1:
 
@@ -15,6 +15,8 @@ gitlock commit ...
 ```
 
 Lock. If there're files in the index but not committed, it will commit before locking.
+
+It locks every commit between the current branch (the HEAD commit) and the very first commit of the repo.
 
 If `gitlock` without any arguments, when committing the commit message will be empty.
 
@@ -54,11 +56,13 @@ Synopsis 4:
 gitlock push
 ```
 
-Push commits and tags (including locks). Before push, it can automatically sign or timestamp based on your configuration.
+Push commits and their tags (including locks). Before push, it can automatically sign or timestamp based on your configuration.
 
 If it hasn't been locked, it will lock first.
 
-Note that you can also use `git push --tags` to push locks, but you'll lose the benefit of combining `git push` and `git push --tags` into one command and automatically locking, signing, or timestamping.
+Note: You can also use `git push`, `git push --tags` or `git push --follow-tags`, but you'll lose the benefit of automatically locking, signing, or timestamping.
+
+Also Note: If you have just locked an existing repo with all commits already pushed, you have to use `git push --tags` to push all locks (while `gitlock push` only pushes tags if the related commit is to be pushed). So when doing `git push --tags`, make sure other branches you don't intend to push don't have any locks yet.
 
 Synopsis 5:
 
@@ -67,7 +71,7 @@ gitlock verify
 gitlock verify --all
 ```
 
-Verify the current lock or all locks, including the signatures and timestamps.
+Verify the current lock or all locks from HEAD to the first commit, including the signatures and timestamps.
 
 Synopsis 6:
 
@@ -76,7 +80,7 @@ gitlock proof [<directory>]
 gitlock proof --all [<directory>]
 ```
 
-Generate a proof (usually a proof of copyright) of the current lock or all locks, and output the proof to a directory. If `<directory>` is omitted, it will output to the working directory.
+Generate a proof (usually a proof of copyright) of the current lock or all locks from HEAD to the first commit, and output the proof to a directory. If `<directory>` is omitted, it will output to the working directory.
 
 Although people can use the `verify` subcommand to verify your repo, not all people trust GitLock. That's a problem. But luckily, people must trust the famous OpenSSL. So it's important that it can generate some proof that can be verified by OpenSSL.
 
@@ -112,7 +116,9 @@ Synopsis 10:
 gitlock remove [--last | --commit | --all]
 ```
 
-Remove locks. If `--all`, it removes all locks. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `000`, `001`, `002` sequence in HEAD commit. The default is `--commit`.
+Remove locks. If `--all`, it removes all locks in the repo. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `000`, `001`, `002` sequence in HEAD commit. The default is `--commit`.
+
+You should be very careful in removing locks. Losing an intermediate lock will make a chain broken. There're two types of lock chains: commit chain and in-commit chain. Both are important.
 
 Configuration
 =============

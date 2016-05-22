@@ -22,6 +22,8 @@ If `gitlock commit`, when committing it will show an editor, like `git commit`.
 
 If `gitlock commit ...`, it's equivalent to `git commit ...` then `gitlock`.
 
+`gitlock -m <commit-message>` is a shorthand for `gitlock commit -m <commit-message>`.
+
 Note that on the first time running it may take some minutes, because it will lock all history commits.
 
 After locked, it can automatically sign or timestamp based on your configuration.

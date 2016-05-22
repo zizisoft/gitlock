@@ -14,7 +14,7 @@ gitlock commit
 gitlock commit ...
 ```
 
-Lock. If there're files not committed, it will commit before locking.
+Lock. If there're files in the index but not committed, it will commit before locking.
 
 If `gitlock` without any arguments, when committing the commit message will be empty.
 
@@ -58,7 +58,7 @@ Push commits and tags (including locks). Before push, it can automatically sign 
 
 If it hasn't been locked, it will lock first.
 
-Note that you can also use `git push --tags` to push locks, but you'll lose the benefit of automatically locking, signing, or timestamping.
+Note that you can also use `git push --tags` to push locks, but you'll lose the benefit of combining `git push` and `git push --tags` into one command and automatically locking, signing, or timestamping.
 
 Synopsis 5:
 
@@ -182,10 +182,11 @@ Examples
 ========
 
 ```bash
+git add .
 gitlock -m 'Fix a bug'
 ```
 
-This will first run `git commit -m 'Fix a bug'`, then run `gitlock`.
+This will add files to the index, then run `git commit -m 'Fix a bug'`, then run `gitlock`.
 
 ```bash
 gitlock timestamp

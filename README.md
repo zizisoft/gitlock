@@ -123,6 +123,8 @@ You should be very careful in removing locks. Losing an intermediate lock will m
 Configuration
 =============
 
+The configuration is stored in the `.gitlock` file under user's home directory. It doesn't modify your repo's directory.
+
 Synopsis 1:
 
 ```

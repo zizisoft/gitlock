@@ -18,7 +18,7 @@ Lock. If there're files in the index but not committed, it will commit before lo
 
 It locks every commit between the current branch (the HEAD commit) and the very first commit of the repo.
 
-If `gitlock` without any arguments, when committing the commit message will be empty.
+If `gitlock` without any arguments, when committing, the message will be empty.
 
 If `gitlock commit`, when committing it will show an editor, like `git commit`.
 

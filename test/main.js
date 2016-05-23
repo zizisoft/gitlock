@@ -7,9 +7,19 @@ let ass = require("assert");
 let $diff = require("../lib/diff");
 
 let exec = (command, options) => {
-    let actualOptions = {cwd: "temp"};
+    let actualOptions = {cwd: "temp", encoding: "utf8"};
     Object.assign(actualOptions, options);
     return $cp.execSync(command, actualOptions);
+};
+
+let runGit = (subcommand, options) => {
+    let s = subcommand === undefined ? "" : " " + subcommand;
+    return exec("git" + s, options);
+};
+
+let runGitlock = (subcommand, options) => {
+    let s = subcommand === undefined ? "" : " " + subcommand;
+    return exec("node ../bin/gitlock" + s, options);
 };
 
 let createSimpleRepo = () => {
@@ -133,18 +143,18 @@ describe("all", () => {
         });
 
         it("main", () => {
-            console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
+            runGitlock();
         });
     });
 
     describe("simple with addition", () => {
         createSimpleRepo();
-        exec("node ../bin/gitlock", {encoding: "utf8"});
+        runGitlock();
 
         it("main", () => {
             $fs.writeFileSync("temp/new.txt", "new\n");
             exec("git add . && git commit -m new");
-            console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
+            runGitlock();
         });
     });
 });

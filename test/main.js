@@ -136,4 +136,14 @@ describe("all", () => {
             console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
         });
     });
+
+    describe("simple with addition", () => {
+        createSimpleRepo();
+        $fs.writeFileSync("temp/new.txt", "new\n");
+        exec("git add . && git commit -m new");
+
+        it("main", () => {
+            console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
+        });
+    });
 });

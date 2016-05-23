@@ -7,7 +7,11 @@ let ass = require("assert");
 let $diff = require("../lib/diff");
 
 let exec = (command, options) => {
-    let actualOptions = {cwd: "temp", encoding: "utf8"};
+    let actualOptions = {
+        cwd: "temp",
+        encoding: "utf8",
+        stdio: ["pipe", process.stdout, process.stderr]
+    };
     Object.assign(actualOptions, options);
     return $cp.execSync(command, actualOptions);
 };

@@ -139,10 +139,11 @@ describe("all", () => {
 
     describe("simple with addition", () => {
         createSimpleRepo();
-        $fs.writeFileSync("temp/new.txt", "new\n");
-        exec("git add . && git commit -m new");
+        exec("node ../bin/gitlock", {encoding: "utf8"});
 
         it("main", () => {
+            $fs.writeFileSync("temp/new.txt", "new\n");
+            exec("git add . && git commit -m new");
             console.log(exec("node ../bin/gitlock", {encoding: "utf8"}));
         });
     });

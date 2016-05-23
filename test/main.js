@@ -12,7 +12,7 @@ let exec = (command, options) => {
     return $cp.execSync(command, actualOptions);
 };
 
-describe("simple", () => {
+let createSimpleRepo = () => {
     rm.sync("temp");
     $fs.mkdirSync("temp");
     exec("git init");
@@ -65,6 +65,10 @@ node_modules
     exec("git checkout master");
     $fs.writeFileSync("temp/e.txt", "e\n");
     exec("git add . && git commit --allow-empty-message -m \"\"");
+};
+
+describe("simple", () => {
+    createSimpleRepo();
 
     it("diff", () => {
         let base = null;

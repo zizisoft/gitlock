@@ -69,18 +69,20 @@ Synopsis 5:
 ```
 gitlock verify
 gitlock verify --all
+gitlock verify <commit>
 ```
 
-Verify the current lock or all locks from HEAD to the first commit, including the signatures and timestamps.
+Verify the locks (including signatures and timestamps) of the current commit, all commits from HEAD to first, or the specified commit.
 
 Synopsis 6:
 
 ```
-gitlock proof [<directory>]
-gitlock proof --all [<directory>]
+gitlock proof <directory>
+gitlock proof --all <directory>
+gitlock proof <commit> <directory>
 ```
 
-Generate a proof (usually a proof of copyright) of the current lock or all locks from HEAD to the first commit, and output the proof to a directory. If `<directory>` is omitted, it will output to the working directory.
+Generate a proof (usually meaning a proof of copyright) of the current commit, all commits from HEAD to first, or the specified commit. Then output the proof to a directory. `<directory>` must already exist.
 
 Although people can use the `verify` subcommand to verify your repo, not all people trust GitLock. That's a problem. But luckily, people must trust the famous OpenSSL. So it's important that it can generate some proof that can be verified by OpenSSL.
 

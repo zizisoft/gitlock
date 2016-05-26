@@ -237,6 +237,8 @@ If applying to mode `040000` (presently the only allowed use), `c-path` will cha
 
 There can be multiple `c-path` fields. `c-path` must appear at the top. On restoring the full format, it will first apply `c-path`, then apply the other diffs.
 
+If it has multiple parents, the diff is based on the first parent.
+
 FAQ
 ====
 

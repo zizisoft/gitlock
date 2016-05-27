@@ -158,7 +158,7 @@ After another several dedades, when the new hash algorithm is retired, there can
 Diff Directory Structure
 ========================
 
-If it has 1000 files, every tag message will be very big. That's unreasonable. So, we also support another directory structure notation: diff format. All directory structures (including those in `old start` and `old end`) can be in diff format. The diff format is only for storing. While calculating the SHA-256 hash for the tag name, it must use its equivalent full format.
+If it has 1000 files, every tag message will be very big. That's unreasonable. So, we also support another directory structure notation: diff format. All directory structures (including those in `old start` and `old end`) can be in diff format. The diff format is only for storing. While calculating the SHA-256 hash for the tag name, it must use its equivalent full format. So it satisfies both the smaller size for storing and the ease of verifying.
 
 For example, first commit:
 

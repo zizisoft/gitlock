@@ -5,6 +5,8 @@ Add a SHA-256 wrapper to increase the security of Git. It can also protect your 
 
 In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md".
 
+There're 3 types of locks: base lock, timestamp lock, signature lock.
+
 Synopsis 1:
 
 ```
@@ -14,7 +16,7 @@ gitlock commit
 gitlock commit ...
 ```
 
-Lock. If there're files in the index but not committed, it will commit before locking.
+Base lock. If there're files in the index but not committed, it will commit before locking.
 
 It locks every commit between the current branch (the HEAD commit) and the very first commit of the repo.
 
@@ -36,7 +38,7 @@ Synopsis 2:
 gitlock sign
 ```
 
-Sign the lock. But if you just want to prove your copyright, you really don't need to sign. Providing  your identity (name, birthday, nationality, passport number, email, etc.) in a file in your repo and then timestamping is enough.
+Sign the current lock. But if you just want to prove your copyright, you really don't need to sign. Providing  your name and email in a file (like `package.json`) in your repo and then timestamping is enough. If you're still not confident, provide more information like your birthday, nationality and passport number in a file (like `author-info.txt`).
 
 If it hasn't been locked, it will lock first.
 
@@ -46,7 +48,9 @@ Synopsis 3:
 gitlock timestamp
 ```
 
-Add a trusted timestamp to the lock. If it hasn't been locked, it will lock first.
+Add a trusted timestamp to the current lock. If it hasn't been locked, it will lock first.
+
+You don't need to timestamp every lock / commit, as the timestamp can prove that every preceding lock / commit happened before the time.
 
 IMPORTANT: If your repo is public, you should timestamp before push. Timestamping after push is weak.
 
@@ -72,7 +76,7 @@ gitlock verify --all
 gitlock verify <commit>
 ```
 
-Verify the locks (including signatures and timestamps) of the current commit, all commits from HEAD to first, or the specified commit.
+Verify the locks (including signatures and timestamps) of the current commit, or all commits from HEAD to first, or the specified commit.
 
 Synopsis 6:
 
@@ -82,7 +86,7 @@ gitlock proof --all <directory>
 gitlock proof <commit> <directory>
 ```
 
-Generate a proof (usually meaning a proof of copyright) of the current commit, all commits from HEAD to first, or the specified commit. Then output the proof to a directory. `<directory>` must already exist.
+Generate a proof (usually meaning a proof of copyright) of the current commit, or all commits from HEAD to first, or the specified commit. Then output the proof to a directory. `<directory>` must already exist.
 
 Although people can use the `verify` subcommand to verify your repo, not all people trust GitLock. That's a problem. But luckily, people must trust the famous OpenSSL. So it's important that it can generate some proof that can be verified by OpenSSL.
 
@@ -165,7 +169,7 @@ gitlock config lock-default <value>
 
 This represents the behavior when typing `gitlock` without and subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
 
-For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to use this and timestamp on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
+For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 
 Synopsis 4:
 
@@ -173,9 +177,9 @@ Synopsis 4:
 gitlock config push-default <value>
 ```
 
-This represents the behavior when typing `gitlock push`. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
+This represents the behavior before push when typing `gitlock push`. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
 
-For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to use this and timestamp on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
+For example, if set to "lock, timestamp", when typing `gitlock push` it will automatically timestamp after locking.
 
 Synopsis 5:
 

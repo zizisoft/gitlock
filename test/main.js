@@ -62,7 +62,7 @@ node_modules
 
     exec("git branch branch1");
     exec("git checkout branch1");
-    $fs.writeFileSync("temp/b", Buffer.from([0, 1, 2]));
+    $fs.writeFileSync("temp/b", new Buffer([0, 1, 2]));
     exec("git add . && git commit -m b");
 
     exec("git checkout master");

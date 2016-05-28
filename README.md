@@ -123,11 +123,11 @@ gitlock remove [--last | --commit | --all]
 gitlock remove <commit-or-lock>
 ```
 
-Remove locks. If `--all`, it removes all locks in the repo. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `000`, `001`, `002` sequence in HEAD commit. The default is `--commit`.
+Remove locks. If `--all`, it removes all locks in the repo. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `001`, `002` sequence in HEAD commit (`000` won't be removed). The default is `--commit`.
 
 If you specify a commit or lock, then: If it's a commit or base lock, it will remove this lock (or the lock that matches this commit) and all succeeding locks in the commit chain, without affecting preceding locks. If it's a timestamp / signature lock, it will remove this lock and all succeeding locks in the in-commit chain, without affecting preceding locks.
 
-You should be very careful in removing locks. Losing an intermediate lock will make a chain broken. There're two types of lock chains: commit chain and in-commit chain. Both are important.
+You should be very careful in removing locks. Losing an intermediate lock will make a chain broken. There're two types of lock chains: commit chain and in-commit chain. Both are important. Particularly, don't move HEAD to an intermediate commit then `gitlock remove`.
 
 Configuration
 =============

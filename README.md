@@ -132,7 +132,7 @@ You should be very careful in removing locks. Losing an intermediate lock will m
 Configuration
 =============
 
-The configuration is stored in the `.gitlock` file under user's home directory. It doesn't modify your repo's directory.
+The configuration is stored in the `.gitlock` directory under user's home directory. It doesn't modify your repo's directory.
 
 Synopsis 1:
 
@@ -205,6 +205,17 @@ gitlock config private
 If you want to sign, you can set this config. `<path>` must be a directory containing a file (for now only support a single file) in PEM format. The file must contain the private key (may also contain the certificate). For how to convert a certificate to PEM format, see OpenSSL manual.
 
 If there's no `<path>`, it will set this config to nothing.
+
+Reset
+=====
+
+Occasionally, You may want to reset all configurations and caches, and remove all data in the `.gitlock` directory. The reason is perhaps there are configuration conflicts between this version and a previous version to prevent it working correctly. You can do this and try again, maybe it will be solved:
+
+```bash
+gitlock reset-program-data
+```
+
+Deleting the `.gitlock` directory does the same.
 
 Examples
 ========

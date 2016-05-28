@@ -215,7 +215,7 @@ Occasionally, You may want to reset all configurations and caches, and remove al
 gitlock reset-program-data
 ```
 
-Deleting the `.gitlock` directory does the same.
+Or alternatively, deleting the `.gitlock` directory should have the same effect.
 
 Examples
 ========

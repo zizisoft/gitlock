@@ -168,9 +168,12 @@ Synopsis 4:
 
 ```
 gitlock config root-ca <path>
+gitlock config root-ca
 ```
 
-Set the location of root certificates. This is for verifying. `<path>` must be a directory containing files in PEM format. On Linux `/etc/ssl/certs` is already the choice, but On Windows and Mac OS you must use your own location.
+Set the location of root certificates. This is for verifying. `<path>` must be a directory containing files in PEM format. On Linux you can simply set it to `/etc/ssl/certs`, but On Windows and Mac OS you must create your own directory.
+
+If there's no `<path>`, it will set this config to nothing.
 
 Synopsis 5:
 
@@ -195,13 +198,13 @@ For example, if set to "lock, timestamp", when typing `gitlock push` it will aut
 Synopsis 7:
 
 ```
-gitlock config private <pem-file>
+gitlock config private <path>
 gitlock config private
 ```
 
-If you want to sign, you can set this config. `<pem-file>` file must contain the private key (may also contain the certificate). For how to convert a certificate to PEM format, see OpenSSL manual.
+If you want to sign, you can set this config. `<path>` must be a directory containing a file (for now only support a single file) in PEM format. The file must contain the private key (may also contain the certificate). For how to convert a certificate to PEM format, see OpenSSL manual.
 
-If there's no `<pem-file>`, it will set this config to nothing.
+If there's no `<path>`, it will set this config to nothing.
 
 Examples
 ========

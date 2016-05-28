@@ -120,9 +120,12 @@ Synopsis 10:
 
 ```
 gitlock remove [--last | --commit | --all]
+gitlock remove <commit-or-lock>
 ```
 
 Remove locks. If `--all`, it removes all locks in the repo. If `--commit`, it removes all locks in HEAD commit. If `--last`, it removes only the last lock in the `000`, `001`, `002` sequence in HEAD commit. The default is `--commit`.
+
+If you specify a commit or lock, then: If it's a commit or base lock, it will remove this lock (or the lock that matches this commit) and all succeeding locks in the commit chain, without affecting preceding locks. If it's a timestamp / signature lock, it will remove this lock and all succeeding locks in the in-commit chain, without affecting preceding locks.
 
 You should be very careful in removing locks. Losing an intermediate lock will make a chain broken. There're two types of lock chains: commit chain and in-commit chain. Both are important.
 
@@ -164,6 +167,14 @@ On Windows if you have Bash installed then you might already have OpenSSL. In Ba
 Synopsis 4:
 
 ```
+gitlock config root-ca <path>
+```
+
+Set the location of root certificates. This is for verifying. `<path>` must be a directory containing files in PEM format. On Linux `/etc/ssl/certs` is already the choice, but On Windows and Mac OS you must use your own location.
+
+Synopsis 5:
+
+```
 gitlock config lock-default <value>
 ```
 
@@ -171,7 +182,7 @@ This represents the behavior when typing `gitlock` without and subcommand. Allow
 
 For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 
-Synopsis 4:
+Synopsis 6:
 
 ```
 gitlock config push-default <value>
@@ -181,7 +192,7 @@ This represents the behavior before push when typing `gitlock push`. Allowed val
 
 For example, if set to "lock, timestamp", when typing `gitlock push` it will automatically timestamp after locking.
 
-Synopsis 5:
+Synopsis 7:
 
 ```
 gitlock config private <pem-file>

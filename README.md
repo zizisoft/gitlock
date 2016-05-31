@@ -92,6 +92,8 @@ Although people can use the `verify` subcommand to verify your repo, not all peo
 
 In the generated directory there's a readme file. Everyone can follow the steps in it to prove your copyright.
 
+Caution: If using `--all`, the generated proof may be very big if every commit holds a large number of files. Here's the estimated proof size in bytes: `100 * number_of_files_in_each_commit * number_of_commits`. So, take care if you have 600,000 commits with each having 50,000 files, such as the Linux Kernel (the world's largest Git repo). In these cases, don't use `--all`.
+
 Synopsis 7:
 
 ```

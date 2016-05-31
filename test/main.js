@@ -161,4 +161,29 @@ describe("all", () => {
             runGitlock();
         });
     });
+
+    if (process.argv[3] === "--long") {
+        describe("long", () => {
+            createSimpleRepo();
+            runGitlock();
+
+            it("main", () => {
+                for (let i = 0; i < 3; i++) {
+                    for (let j = 0; j < 500; j++) {
+                        $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
+                        exec("git add . && git commit -m new");
+                    }
+                    for (let j = 0; j < 500; j++) {
+                        $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
+                        exec("git add . && git commit -m new");
+                    }
+                    for (let j = 0; j < 500; j++) {
+                        $fs.unlinkSync(`temp/new-${j}.txt`);
+                        exec("git add . && git commit -m new");
+                    }
+                }
+                runGitlock();
+            });
+        });
+    }
 });

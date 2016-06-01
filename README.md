@@ -235,3 +235,10 @@ gitlock push
 ```
 
 This will timestamp and push commits including locks to the remote server.
+
+FAQ
+====
+
+**Q: Will the timestamp request disclose my private code?**
+
+A: No. It only sends a SHA-256 hash.

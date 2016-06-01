@@ -32,7 +32,7 @@ Note: All files and directories (including those unmodified, also including subd
 
 For a directory, the hash must be all-zero, which has no meaning.
 
-For the first lock, there's no parent, so there should be no parent line (also no empty line after it). If there're 2 or more parents, write multiple parent lines (no empty lines in between).
+For the first lock, there's no parent, so there should be no parent line (also no empty line after it). If there're 2 or more parents, write multiple parent lines (no empty lines in between). Parent lines can be in any order - no need to strictly follow that in the Git commit object.
 
 If the commit message is empty, the Base64 line should be `base64-`.
 
@@ -237,7 +237,7 @@ If applying to mode `040000` (presently the only allowed use), `c-path` will cha
 
 There can be multiple `c-path` fields. `c-path` must appear at the top. On restoring the full format, it will first apply `c-path`, then apply the other diffs.
 
-If it has multiple parents, the diff is based on the first parent.
+If it has multiple parents, the diff is based on the first parent. So it's better to set the first parent to be that giving the smallest diff.
 
 FAQ
 ====

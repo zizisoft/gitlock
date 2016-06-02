@@ -239,6 +239,29 @@ There can be multiple `c-path` fields. `c-path` must appear at the top. On resto
 
 If it has multiple parents, the diff is based on the first parent. So it's better to set the first parent to be that giving the smallest diff.
 
+Code Terminology
+================
+
+This section governs the naming conventions in the code.
+
+Unless otherwise specified, "hash" means our SHA-256 hash string, including the `sha256-` prefix.
+
+Unless otherwise specified, ID means the Git object's SHA-1 hash string. Commit is a concept (or object), not a string. But commit ID is a string.
+
+"File" can also mean a directory. File is a concept (or object), not a string. File path is a string.
+
+The first lock for a commit is called the base lock. Subsequent locks for this commit are called derived locks.
+
+Lock name is the string starting with `gitlock-` (tag name). Lock content is usually the tag message, but when using diff, the lock content is the diff-applied version, while the tag message is called the stored lock content. Lock is a concept (or object), not a string.
+
+Time is an ISO-8601 string, not a `Date` object or a number.
+
+But, for JSON that is to be stored, we can make it shorter, such as "commit ID" to "commit", because in JSON this field must be string, without ambiguity (can't be object).
+
+The `000`, `001` in the lock name is called label.
+
+Cache can mean memory cache or program data cache, but if omitted it usually means memory cache.
+
 FAQ
 ====
 

@@ -219,6 +219,11 @@ gitlock reset-program-data
 
 Or alternatively, deleting the `.gitlock` directory should have the same effect.
 
+Limitations
+===========
+
+Currently it doesn't support repos with history of "orphan branches". Orphan branch causes multiple roots, which is weird and rarely used. We may support it later.
+
 Examples
 ========
 

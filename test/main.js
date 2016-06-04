@@ -6,6 +6,22 @@ let rm = require("rimraf");
 let ass = require("assert");
 let $diff = require("../lib/diff");
 
+let parseLines = str => {
+    let r = str.split(/\r\n|\n/);
+    if (r[r.length - 1] === "") {
+        r.pop();
+    }
+    return r;
+};
+
+// Similar to `parseLines`, but forces exactly 1 line, otherwise throws. Returns the line.
+// So in fact, the difference between in and out is just that the trailing newline char is stripped.
+let parseLine = str => {
+    let lines = parseLines(str);
+    ass(lines.length === 1);
+    return lines[0];
+};
+
 let exec = (command, options) => {
     let actualOptions = {
         cwd: "temp",
@@ -16,6 +32,14 @@ let exec = (command, options) => {
     return $cp.execSync(command, actualOptions);
 };
 
+let execToLine = (command, options) => {
+    return parseLine(exec(command, options));
+};
+
+let execToLines = (command, options) => {
+    return parseLines(exec(command, options));
+};
+
 let runGit = (subcommand, options) => {
     let s = subcommand === undefined ? "" : " " + subcommand;
     return exec("git" + s, options);
@@ -24,6 +48,22 @@ let runGit = (subcommand, options) => {
 let runGitlock = (subcommand, options) => {
     let s = subcommand === undefined ? "" : " " + subcommand;
     return exec("node ../bin/gitlock" + s, options);
+};
+
+let getLocks = commitId => {
+    let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
+    return lockNames.map(lockName => {
+        let tagId = execToLine(`git show-ref --tags -s ${lockName}`);
+        let lines = execToLines(`git cat-file tag ${tagId}`);
+        let emptyLineIndex = lines.indexOf("");
+
+        // Can't use `join("\n")` because the return value must end with newline char.
+        return {
+            name: lockName,
+            storedContent:
+                lines.slice(emptyLineIndex + 1).map(m => m + "\n").join(""), // if out-of-boundary, it's ""
+        };
+    });
 };
 
 let createSimpleRepo = () => {
@@ -151,6 +191,7 @@ describe("all", () => {
 
         it("main", () => {
             runGitlock();
+            runGitlock("verify --all");
         });
     });
 

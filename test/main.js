@@ -65,6 +65,9 @@ node_modules
     $fs.writeFileSync("temp/b", new Buffer([0, 1, 2]));
     exec("git add . && git commit -m b");
 
+    $fs.writeFileSync("temp/b1", new Buffer([0, 1, 2, 3]));
+    exec("git add . && git commit -m b1");
+
     exec("git checkout master");
     $fs.writeFileSync("temp/c.txt", "c\n");
     exec("git add . && git commit -m c");

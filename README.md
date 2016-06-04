@@ -175,9 +175,13 @@ gitlock config root-ca <path>
 gitlock config root-ca
 ```
 
-Set the location of root certificates. This is for verifying. `<path>` must be a directory containing files in PEM format. On Linux you can simply set it to `/etc/ssl/certs`, but On Windows and Mac OS you must create your own directory.
+Set the location of root certificates. This is for verifying. `<path>` must be a directory containing certificate files in PEM format. If there's no `<path>`, it will set this config to nothing.
 
-If there's no `<path>`, it will set this config to nothing.
+IMPORTANT: You must use `c_rehash` to generate `xxxxxxxx.0` files (where `x` is a hex number) before OpenSSL can search this directory. For details see:
+
+https://www.openssl.org/docs/man1.0.2/apps/c_rehash.html
+
+Again, in Mac OS X do not use the built-in `c_rehash` command (this uses outdated MD5 to generate a different hash that newer version can't recognize). You should use the one bundled with OpenSSL v1.0+. For example, for Comodo's `UTN-USERFirst-Object` certificate, after `c_rehash` the generated symlink will be `2c3e3f84.0`.
 
 Synopsis 5:
 

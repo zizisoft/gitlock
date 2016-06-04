@@ -58,12 +58,7 @@ timestamp, if you have "002" timestamp then the "001" timestamp is treated as
 data when you verify "002". It's called the timestamp chain. The common use is
 to extend the expiration date, because most timestamps expire in 5-10 years.)
 
-On Linux, it's simple:
-
-openssl ts -verify -in <timestamp> -data <data> -CApath /etc/ssl/certs
-
-On Windows / Mac OS, you'll need to specify a self-signed root certificate it
-should trust:
+You'll need to specify a self-signed root certificate it should trust:
 
 openssl ts -verify -in <timestamp> -data <data> -CAfile <root-cert>
 

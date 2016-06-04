@@ -5,7 +5,7 @@ Add a SHA-256 wrapper to increase the security of Git. It can also protect your 
 
 In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md".
 
-There're 3 types of locks: base lock, timestamp lock, signature lock.
+There're 3 types of locks: base lock, timestamp lock, and signature lock (signature locks are not implemented yet).
 
 Synopsis 1:
 
@@ -32,7 +32,7 @@ Note that on the first time running it may take some minutes, because it will lo
 
 After locked, it can automatically sign or timestamp based on your configuration.
 
-Synopsis 2:
+Synopsis 2 (not implemented yet):
 
 ```
 gitlock sign
@@ -195,7 +195,7 @@ Synopsis 5:
 gitlock config lock-default <value>
 ```
 
-This represents the behavior when typing `gitlock` without and subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
+This represents the behavior when typing `gitlock` without and subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
 
 For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 
@@ -205,11 +205,11 @@ Synopsis 6:
 gitlock config push-default <value>
 ```
 
-This represents the behavior before push when typing `gitlock push`. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp". The default is "lock".
+This represents the behavior before push when typing `gitlock push`. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
 
 For example, if set to "lock, timestamp", when typing `gitlock push` it will automatically timestamp after locking.
 
-Synopsis 7:
+Synopsis 7 (not implemented yet):
 
 ```
 gitlock config private <path>

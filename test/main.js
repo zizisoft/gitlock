@@ -126,8 +126,6 @@ node_modules
 
 describe("all", () => {
     describe("simple", () => {
-        createSimpleRepo();
-
         it("diff", () => {
             let base = null;
             let str = null;
@@ -190,16 +188,18 @@ describe("all", () => {
         });
 
         it("main", () => {
+            createSimpleRepo();
             runGitlock();
             runGitlock("verify --all");
+            $fs.mkdirSync("temp/proof");
+            runGitlock("proof --all proof");
         });
     });
 
     describe("simple with addition", () => {
-        createSimpleRepo();
-        runGitlock();
-
         it("main", () => {
+            createSimpleRepo();
+            runGitlock();
             $fs.writeFileSync("temp/new.txt", "new\n");
             exec("git add . && git commit -m new");
             runGitlock();
@@ -208,10 +208,9 @@ describe("all", () => {
 
     if (process.argv[3] === "--long") {
         describe("long", () => {
-            createSimpleRepo();
-            runGitlock();
-
             it("main", () => {
+                createSimpleRepo();
+                runGitlock();
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 500; j++) {
                         $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());

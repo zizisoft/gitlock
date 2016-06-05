@@ -203,7 +203,7 @@ describe("all", function() {
             ass.strictEqual(commits[0].locks.length, 1);
             ass(commits[0].locks[0].content.search(new RegExp(
             "^" +
-            "100644 sha256-7dfa8c4d0ae505ae9e5404495eff9d5c04ec13faae715f9dfc77d98b8426a620 .gitignore\\n" +
+            "100644 sha256-7dfa8c4d0ae505ae9e5404495eff9d5c04ec13faae715f9dfc77d98b8426a620 \\.gitignore\\n" +
             "\\n" +
             "commit " + commits[0].id + "\\n" +
             "\\n" +

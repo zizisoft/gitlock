@@ -318,7 +318,7 @@ describe("all", function() {
                     "100644 sha256-d7f6df5b097bcc6a4d11d1b4901f342fe0fd9aca663e7e32c704fe6816a744e5 我 你.txt\n",
                 commitMessage: "m\n"
             });
-            ass.strictEqual(commits[6].locks.length, 1);
+            ass.strictEqual(commits[6].locks.length, 2);
             assBaseLock(commits[6].locks[0], commits[6], {
                 parentLocks: [commits[5].locks[0]],
                 files:

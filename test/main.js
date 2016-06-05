@@ -418,6 +418,10 @@ describe("all", function() {
             assTimestampLock(commits[7].locks[1], commits[7], {
                 parentLock: commits[7].locks[0]
             });
+
+            cmdGitlock("verify --all");
+            $fs.mkdirSync("temp/proof");
+            cmdGitlock("proof --all proof");
         });
     });
 

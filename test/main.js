@@ -217,7 +217,11 @@ describe("all", function() {
             createSimpleRepo();
             runGitlock();
             runGitlock("verify --all");
+
             let commits = getCommits();
+
+            ass.strictEqual(commits.length, 7);
+
             ass.strictEqual(commits[0].locks.length, 1);
             assBaseLock(commits[0].locks[0], commits[0], {
                 parentLocks: [],

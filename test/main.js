@@ -52,18 +52,17 @@ let runGitlock = (subcommand, options) => {
 
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
-    return lockNames.map(lockName => {
-        let tagId = execToLine(`git show-ref --tags -s ${lockName}`);
-        let lines = execToLines(`git cat-file tag ${tagId}`);
-        let emptyLineIndex = lines.indexOf("");
+    return lockNames.map(lockName => ({name: lockName, content: runGitlock("show-content")}));
+};
 
-        // Can't use `join("\n")` because the return value must end with newline char.
-        return {
-            name: lockName,
-            storedContent:
-                lines.slice(emptyLineIndex + 1).map(m => m + "\n").join(""), // if out-of-boundary, it's ""
-        };
-    });
+let getCommitIDs = () => execToLines("git rev-list --reverse --topo-order HEAD");
+
+let getCommits = () => getCommitIDs.map(m => ({id: m, locks: getLocks(m)}));
+
+// `data` can be Buffer or string
+let getBase64 = data => {
+    let bytes = data instanceof Buffer ? data : new Buffer(data);
+    return "base64-" + bytes.toString("base64");
 };
 
 let createSimpleRepo = () => {
@@ -191,6 +190,19 @@ describe("all", () => {
             createSimpleRepo();
             runGitlock();
             runGitlock("verify --all");
+            let commits = getCommits();
+            ass.strictEqual(commits[0].locks.length, 1);
+            ass(commits[0].locks[0].content.match(new RegExp(
+            "^" +
+            "100644 sha256-7dfa8c4d0ae505ae9e5404495eff9d5c04ec13faae715f9dfc77d98b8426a620 .gitignore\\n" +
+            "\\n" +
+            "commit " + commits[0].id + "\\n" +
+            "\\n" +
+            getBase64("init\n") + "\\n" +
+            "\\n" +
+            "nonce [0-9a-f]{32}\\n" +
+            "$"
+            )));
             $fs.mkdirSync("temp/proof");
             runGitlock("proof --all proof");
         });

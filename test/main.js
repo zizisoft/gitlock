@@ -47,19 +47,24 @@ let execToLines = (command, options) => {
     return parseLines(exec(command, options));
 };
 
-let runGit = (subcommand, options) => {
+let execGit = (subcommand, options) => {
     let s = subcommand === undefined ? "" : " " + subcommand;
     return exec("git" + s, options);
 };
 
-let runGitlock = (subcommand, options) => {
+let execGitlock = (subcommand, options) => {
     let s = subcommand === undefined ? "" : " " + subcommand;
     return exec("node ../bin/gitlock" + s, options);
 };
 
+let cmdGitlock = (subcommand, options) => {
+    let s = subcommand === undefined ? "" : " " + subcommand;
+    return cmd("node ../bin/gitlock" + s, options);
+};
+
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
-    return lockNames.map(lockName => ({name: lockName, content: runGitlock("show-content " + lockName)}));
+    return lockNames.map(lockName => ({name: lockName, content: execGitlock("show-content " + lockName)}));
 };
 
 let getCommitIDs = () => execToLines("git rev-list --reverse --topo-order HEAD");
@@ -215,11 +220,11 @@ describe("all", function() {
 
         it("main", () => {
             createSimpleRepo();
-            runGitlock();
-            runGitlock("timestamp");
-            runGitlock("verify --all");
+            cmdGitlock();
+            cmdGitlock("timestamp");
+            cmdGitlock("verify --all");
             $fs.mkdirSync("temp/proof");
-            runGitlock("proof --all proof");
+            cmdGitlock("proof --all proof");
 
             let commits = getCommits();
 
@@ -344,10 +349,10 @@ describe("all", function() {
     describe("simple with addition", () => {
         it("main", () => {
             createSimpleRepo();
-            runGitlock();
+            cmdGitlock();
             $fs.writeFileSync("temp/new.txt", "new\n");
             cmd("git add . && git commit -m new");
-            runGitlock();
+            cmdGitlock();
         });
     });
 
@@ -355,7 +360,7 @@ describe("all", function() {
         describe("long", () => {
             it("main", () => {
                 createSimpleRepo();
-                runGitlock();
+                cmdGitlock();
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 500; j++) {
                         $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
@@ -370,7 +375,7 @@ describe("all", function() {
                         cmd("git add . && git commit -m new");
                     }
                 }
-                runGitlock();
+                cmdGitlock();
             });
         });
     }

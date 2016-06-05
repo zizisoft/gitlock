@@ -4,7 +4,13 @@ let $fs = require("fs");
 let $cp = require("child_process");
 let rm = require("rimraf");
 let ass = require("assert");
+let $os = require("os");
+let $path = require("path").posix;
 let $diff = require("../lib/diff");
+
+let programDataPath = $path.join($os.homedir(), ".gitlock");
+let configPath = $path.join(programDataPath, "config.json");
+let config = JSON.parse($fs.readFileSync(configPath, {encoding: "utf8"}));
 
 let parseLines = str => {
     let r = str.split(/\r\n|\n/);
@@ -101,17 +107,21 @@ let assBaseLock = (lock, commit, expected) => {
 };
 
 let assTimestampLock = (lock, commit, expected) => {
-    ass(lock.content.search(new RegExp(
+    let match = lock.content.match(new RegExp(
         "^" +
         "timestamps\\n" +
         "\\n" +
         "parent " + expected.parentLock.hash + "\\n" +
         "\\n" +
-        encodeRegexPart(getBase64(expected.data[0])) + "\\n" +
+        "base64-([a-zA-Z0-9+/=]*)\\n" +
         "\\n" +
         "nonce [0-9a-f]{32}\\n" +
         "$"
-    )) !== -1);
+    ));
+    ass(match !== null);
+    $fs.writeFileSync("temp/temp.tsr", new Buffer(match[1], "base64"));
+    $fs.writeFileSync("temp/temp.dat", expected.parentLock.content);
+    cmd(`"${config.openssl}" ts -verify -in temp.tsr -data temp.dat -CApath "${config.rootCa}"`);
 };
 
 let createSimpleRepo = () => {
@@ -363,8 +373,7 @@ describe("all", function() {
                 commitMessage: ""
             });
             assTimestampLock(commits[6].locks[1], commits[6], {
-                parentLock: commits[6].locks[0],
-                data: [commits[6].locks[0].contentInBytes]
+                parentLock: commits[6].locks[0]
             });
         });
     });

@@ -64,7 +64,12 @@ let cmdGitlock = (subcommand, options) => {
 
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
-    return lockNames.map(lockName => ({name: lockName, content: execGitlock("show-content " + lockName)}));
+    return lockNames.map(lockName => {
+        let r = {name: lockName, content: execGitlock("show-content " + lockName)};
+        r.hash = r.name.match(/^gitlock-\d\d\d-(.*)$/)[1];
+        r.contentInBytes = new Buffer(r.content);
+        return r;
+    });
 };
 
 let getCommitIDs = () => execToLines("git rev-list --reverse --topo-order HEAD");
@@ -82,13 +87,27 @@ let encodeRegexPart = str => str.replace(/([.*+?{}()|^$\[\]\\])/g, "\\$1");
 let assBaseLock = (lock, commit, expected) => {
     ass(lock.content.search(new RegExp(
         "^" +
-        expected.parentLocks.map(m => "parent " + m.name.substr(12) + "\\n").join("") +
+        expected.parentLocks.map(m => "parent " + m.hash + "\\n").join("") +
         (expected.parentLocks.length === 0 ? "" : "\\n") +
         encodeRegexPart(expected.files) +
         "\\n" +
         "commit " + commit.id + "\\n" +
         "\\n" +
         encodeRegexPart(getBase64(expected.commitMessage)) + "\\n" +
+        "\\n" +
+        "nonce [0-9a-f]{32}\\n" +
+        "$"
+    )) !== -1);
+};
+
+let assTimestampLock = (lock, commit, expected) => {
+    ass(lock.content.search(new RegExp(
+        "^" +
+        "timestamps\\n" +
+        "\\n" +
+        "parent " + expected.parentLock.hash + "\\n" +
+        "\\n" +
+        encodeRegexPart(getBase64(expected.data[0])) + "\\n" +
         "\\n" +
         "nonce [0-9a-f]{32}\\n" +
         "$"
@@ -342,6 +361,10 @@ describe("all", function() {
                     "100644 sha256-a2bbdb2de53523b8099b37013f251546f3d65dbe7a0774fa41af0a4176992fd4 e.txt\n" +
                     "100644 sha256-d7f6df5b097bcc6a4d11d1b4901f342fe0fd9aca663e7e32c704fe6816a744e5 我 你.txt\n",
                 commitMessage: ""
+            });
+            assTimestampLock(commits[6].locks[1], commits[6], {
+                parentLock: commits[6].locks[0],
+                data: [commits[6].locks[0].contentInBytes]
             });
         });
     });

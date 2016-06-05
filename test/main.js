@@ -217,6 +217,9 @@ describe("all", function() {
             createSimpleRepo();
             runGitlock();
             runGitlock("timestamp");
+            runGitlock("verify --all");
+            $fs.mkdirSync("temp/proof");
+            runGitlock("proof --all proof");
 
             let commits = getCommits();
 
@@ -335,10 +338,6 @@ describe("all", function() {
                     "100644 sha256-d7f6df5b097bcc6a4d11d1b4901f342fe0fd9aca663e7e32c704fe6816a744e5 我 你.txt\n",
                 commitMessage: ""
             });
-
-            runGitlock("verify --all");
-            $fs.mkdirSync("temp/proof");
-            runGitlock("proof --all proof");
         });
     });
 

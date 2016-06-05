@@ -25,11 +25,18 @@ let parseLine = str => {
 let exec = (command, options) => {
     let actualOptions = {
         cwd: "temp",
-        encoding: "utf8",
-        stdio: ["pipe", process.stdout, process.stderr]
+        encoding: "utf8"
     };
     Object.assign(actualOptions, options);
     return $cp.execSync(command, actualOptions);
+};
+
+let cmd = (command, options) => {
+    let actualOptions = {
+        stdio: ["pipe", process.stdout, process.stderr]
+    };
+    Object.assign(actualOptions, options);
+    return exec(command, actualOptions);
 };
 
 let execToLine = (command, options) => {
@@ -57,7 +64,7 @@ let getLocks = commitId => {
 
 let getCommitIDs = () => execToLines("git rev-list --reverse --topo-order HEAD");
 
-let getCommits = () => getCommitIDs.map(m => ({id: m, locks: getLocks(m)}));
+let getCommits = () => getCommitIDs().map(m => ({id: m, locks: getLocks(m)}));
 
 // `data` can be Buffer or string
 let getBase64 = data => {

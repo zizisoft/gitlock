@@ -59,7 +59,7 @@ let runGitlock = (subcommand, options) => {
 
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
-    return lockNames.map(lockName => ({name: lockName, content: runGitlock("show-content")}));
+    return lockNames.map(lockName => ({name: lockName, content: runGitlock("show-content " + lockName)}));
 };
 
 let getCommitIDs = () => execToLines("git rev-list --reverse --topo-order HEAD");

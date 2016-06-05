@@ -2,10 +2,11 @@
 
 let $fs = require("fs");
 let $cp = require("child_process");
-let rm = require("rimraf");
 let ass = require("assert");
 let $os = require("os");
 let $path = require("path").posix;
+let $crypto = require("crypto");
+let rm = require("rimraf");
 let $diff = require("../lib/diff");
 
 let programDataPath = $path.join($os.homedir(), ".gitlock");
@@ -90,7 +91,15 @@ let getBase64 = data => {
 
 let encodeRegexPart = str => str.replace(/([.*+?{}()|^$\[\]\\])/g, "\\$1");
 
+// `data` can be string or buffer.
+let computeHash = data => "sha256-" + $crypto.createHash("sha256").update(data).digest("hex");
+
+let assLock = lock => {
+    ass.strictEqual(lock.hash, computeHash(lock.content));
+};
+
 let assBaseLock = (lock, commit, expected) => {
+    assLock(lock);
     ass(lock.content.search(new RegExp(
         "^" +
         expected.parentLocks.map(m => "parent " + m.hash + "\\n").join("") +
@@ -107,6 +116,7 @@ let assBaseLock = (lock, commit, expected) => {
 };
 
 let assTimestampLock = (lock, commit, expected) => {
+    assLock(lock);
     let match = lock.content.match(new RegExp(
         "^" +
         "timestamps\\n" +

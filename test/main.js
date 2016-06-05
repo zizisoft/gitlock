@@ -75,7 +75,7 @@ let getBase64 = data => {
 let createSimpleRepo = () => {
     rm.sync("temp");
     $fs.mkdirSync("temp");
-    exec("git init");
+    cmd("git init");
 
     $fs.writeFileSync("temp/.gitignore", String.raw`# OS X
 .DS_Store
@@ -92,7 +92,7 @@ node_modules
 
 *.log
 `);
-    exec("git add . && git commit -m init");
+    cmd("git add . && git commit -m init");
 
     $fs.writeFileSync("temp/a.txt", "file body 1\n");
     $fs.writeFileSync("temp/我 你.txt", "文件 2\n");
@@ -103,31 +103,31 @@ node_modules
     $fs.writeFileSync("temp/dir2/a.txt", "aaaaa\n");
     $fs.writeFileSync("temp/dir2/b.txt", "bbbbbbbb\n");
     $fs.writeFileSync("temp/dir2/c.txt", "ccccc\n");
-    exec("git add .");
-    exec("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
+    cmd("git add .");
+    cmd("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
 
-    exec("git branch branch1");
-    exec("git checkout branch1");
+    cmd("git branch branch1");
+    cmd("git checkout branch1");
     $fs.writeFileSync("temp/b", new Buffer([0, 1, 2]));
-    exec("git add . && git commit -m b");
+    cmd("git add . && git commit -m b");
 
     $fs.writeFileSync("temp/b1", new Buffer([0, 1, 2, 3]));
-    exec("git add . && git commit -m b1");
+    cmd("git add . && git commit -m b1");
 
-    exec("git checkout master");
+    cmd("git checkout master");
     $fs.writeFileSync("temp/c.txt", "c\n");
-    exec("git add . && git commit -m c");
+    cmd("git add . && git commit -m c");
 
-    exec("git merge -m m branch1 && git branch -d branch1");
+    cmd("git merge -m m branch1 && git branch -d branch1");
 
-    exec("git branch branch2");
-    exec("git checkout branch2");
+    cmd("git branch branch2");
+    cmd("git checkout branch2");
     $fs.writeFileSync("temp/d", "d\n");
-    exec("git add . && git commit -m d");
+    cmd("git add . && git commit -m d");
 
-    exec("git checkout master");
+    cmd("git checkout master");
     $fs.writeFileSync("temp/e.txt", "e\n");
-    exec("git add . && git commit --allow-empty-message -m \"\"");
+    cmd("git add . && git commit --allow-empty-message -m \"\"");
 };
 
 describe("all", () => {
@@ -220,7 +220,7 @@ describe("all", () => {
             createSimpleRepo();
             runGitlock();
             $fs.writeFileSync("temp/new.txt", "new\n");
-            exec("git add . && git commit -m new");
+            cmd("git add . && git commit -m new");
             runGitlock();
         });
     });
@@ -233,15 +233,15 @@ describe("all", () => {
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 500; j++) {
                         $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
-                        exec("git add . && git commit -m new");
+                        cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
                         $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
-                        exec("git add . && git commit -m new");
+                        cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
                         $fs.unlinkSync(`temp/new-${j}.txt`);
-                        exec("git add . && git commit -m new");
+                        cmd("git add . && git commit -m new");
                     }
                 }
                 runGitlock();

@@ -77,7 +77,7 @@ let encodeRegexPart = str => str.replace(/([.*+?{}()|^$\[\]\\])/g, "\\$1");
 let assBaseLock = (lock, commit, expected) => {
     ass(lock.content.search(new RegExp(
         "^" +
-        expected.parentLocks.map(m => "parent " + m.name.substr(12) + "\\n") +
+        expected.parentLocks.map(m => "parent " + m.name.substr(12) + "\\n").join("") +
         (expected.parentLocks.length === 0 ? "" : "\\n") +
         encodeRegexPart(expected.files) +
         "\\n" +

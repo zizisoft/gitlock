@@ -72,6 +72,24 @@ let getBase64 = data => {
     return "base64-" + bytes.toString("base64");
 };
 
+let encodeRegexPart = str => str.replace(/([.*+?{}()|^$\[\]\\])/g, "\\$1");
+
+let assBaseLock = (lock, commit, expected) => {
+    ass(lock.content.search(new RegExp(
+        "^" +
+        expected.parentLocks.map(m => "parent " + m.name.substr(12) + "\\n") +
+        (expected.parentLocks.length === 0 ? "" : "\\n") +
+        encodeRegexPart(expected.files) +
+        "\\n" +
+        "commit " + commit.id + "\\n" +
+        "\\n" +
+        encodeRegexPart(getBase64(expected.commitMessage)) + "\\n" +
+        "\\n" +
+        "nonce [0-9a-f]{32}\\n" +
+        "$"
+    )) !== -1);
+};
+
 let createSimpleRepo = () => {
     rm.sync("temp");
     $fs.mkdirSync("temp");
@@ -201,17 +219,11 @@ describe("all", function() {
             runGitlock("verify --all");
             let commits = getCommits();
             ass.strictEqual(commits[0].locks.length, 1);
-            ass(commits[0].locks[0].content.search(new RegExp(
-            "^" +
-            "100644 sha256-7dfa8c4d0ae505ae9e5404495eff9d5c04ec13faae715f9dfc77d98b8426a620 \\.gitignore\\n" +
-            "\\n" +
-            "commit " + commits[0].id + "\\n" +
-            "\\n" +
-            getBase64("init\n") + "\\n" +
-            "\\n" +
-            "nonce [0-9a-f]{32}\\n" +
-            "$"
-            )) !== -1);
+            assBaseLock(commits[0].locks[0], commits[0], {
+                parentLocks: [],
+                files: "100644 sha256-7dfa8c4d0ae505ae9e5404495eff9d5c04ec13faae715f9dfc77d98b8426a620 .gitignore\n",
+                commitMessage: "init\n"
+            });
             $fs.mkdirSync("temp/proof");
             runGitlock("proof --all proof");
         });

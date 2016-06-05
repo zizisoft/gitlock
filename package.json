@@ -1,14 +1,14 @@
 {
     "name": "gitlock",
-    "version": "0.0.0",
-    "description": "Coming soon!",
+    "version": "0.1.0",
+    "description": "Add a SHA-256 wrapper to increase the security of Git. It can also protect your copyright by adding timestamps from trusted Time Stamping Authority.",
     "keywords": ["git", "lock"],
     "author": "Zhenzhen Zhan <zhanzhenzhen@hotmail.com>",
-    "homepage": "https://github.com/zhanzhenzhen/gitlock",
+    "homepage": "https://github.com/zizisoft/gitlock",
     "license": "MIT",
     "repository": {
         "type": "git",
-        "url": "https://github.com/zhanzhenzhen/gitlock.git"
+        "url": "https://github.com/zizisoft/gitlock.git"
     },
     "dependencies": {
     },

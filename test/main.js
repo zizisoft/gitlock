@@ -130,7 +130,9 @@ node_modules
     cmd("git add . && git commit --allow-empty-message -m \"\"");
 };
 
-describe("all", () => {
+describe("all", function() {
+    this.timeout(0);
+
     describe("simple", () => {
         it("diff", () => {
             let base = null;

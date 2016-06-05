@@ -71,10 +71,11 @@ let cmdGitlock = (subcommand, options) => {
 
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
-    return lockNames.map(lockName => {
+    return lockNames.map((lockName, index) => {
         let r = {name: lockName, content: execGitlock("show-content " + lockName)};
         r.hash = r.name.match(/^gitlock-\d\d\d-(.*)$/)[1];
         r.contentInBytes = new Buffer(r.content);
+        r.index = index;
         return r;
     });
 };
@@ -96,6 +97,9 @@ let computeHash = data => "sha256-" + $crypto.createHash("sha256").update(data).
 
 let assLock = lock => {
     ass.strictEqual(lock.hash, computeHash(lock.content));
+
+    // no more than 10 locks per commit is enough for test
+    ass(lock.name.startsWith(`gitlock-00${lock.index}-`));
 };
 
 let assBaseLock = (lock, commit, expected) => {

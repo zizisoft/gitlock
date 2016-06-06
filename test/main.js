@@ -449,6 +449,19 @@ describe("all", function() {
             $fs.writeFileSync("temp/a.txt", "a\n");
             cmd("git add . && git commit -m a");
             cmd("git commit -m same-a --allow-empty");
+            cmdGitlock();
+            let commits = getCommits();
+            ass.strictEqual(commits.length, 4);
+            assBaseLock(commits[0].locks[0], commits[0], {
+                parentLocks: [],
+                files: "",
+                commitMessage: "first\n"
+            });
+            assBaseLock(commits[1].locks[0], commits[1], {
+                parentLocks: [commits[0].locks[0]],
+                files: "",
+                commitMessage: "second\n"
+            });
         });
     });
 

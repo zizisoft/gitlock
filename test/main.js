@@ -418,6 +418,15 @@ describe("all", function() {
                 "100644 sha256-0e525d70686b35148ec01cc0f4c6fc1362e95397b31ed8c443c2089d371967dc a\n"
             );
             ass.strictEqual($diff.applyDiff(base, diff), str);
+
+            base =
+                "100644 sha256-0e525d70686b35148ec01cc0f4c6fc1362e95397b31ed8c443c2089d371967dc a\n";
+            str = "";
+            diff = $diff.computeDiff(base, str);
+            ass.strictEqual(diff,
+                "d 0 1\n"
+            );
+            ass.strictEqual($diff.applyDiff(base, diff), str);
         });
 
         it("main", () => {

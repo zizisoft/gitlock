@@ -195,7 +195,7 @@ Synopsis 5:
 gitlock config lock-default <value>
 ```
 
-This represents the behavior when typing `gitlock` without and subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
+This represents the behavior when typing `gitlock` without any subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
 
 For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 

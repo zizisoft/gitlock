@@ -34,6 +34,8 @@ For a directory, the hash must be all-zero, which has no meaning.
 
 For the first lock, there's no parent, so there should be no parent line (also no empty line after it). If there're 2 or more parents, write multiple parent lines (no empty lines in between). Parent lines can be in any order - no need to strictly follow that in the Git commit object.
 
+If there're no files, then there should be no file list lines (also no empty line after it).
+
 If the commit message is empty, the Base64 line should be `base64-`.
 
 From this model you can find we do allow empty directories, though Git currently prevents it.
@@ -158,6 +160,8 @@ After another several dedades, when the new hash algorithm is retired, there can
 Diff Directory Structure
 ========================
 
+(Note: `c-path` is not implemented yet.)
+
 If it has 1000 files, every tag message will be very big. That's unreasonable. So, we also support another directory structure notation: diff format. All directory structures (including those in `old start` and `old end`) can be in diff format. The diff format is only for storing. While calculating the SHA-256 hash for the tag name, it must use its equivalent full format. So it satisfies both the smaller size for storing and the ease of verifying.
 
 For example, first commit:
@@ -238,6 +242,8 @@ If applying to mode `040000` (presently the only allowed use), `c-path` will cha
 There can be multiple `c-path` fields. `c-path` must appear at the top. On restoring the full format, it will first apply `c-path`, then apply the other diffs.
 
 If it has multiple parents, the diff is based on the first parent. So it's better to set the first parent to be that giving the smallest diff.
+
+Similar to the full format, if there's no diff (committed using `--allow-empty`), then there should be no diff lines (also no empty line after it).
 
 Code Terminology
 ================

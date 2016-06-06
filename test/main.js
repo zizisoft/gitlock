@@ -576,6 +576,18 @@ describe("all", function() {
                 files: "",
                 commitMessage: "second\n"
             });
+            assBaseLock(commits[2].locks[0], commits[2], {
+                parentLocks: [commits[1].locks[0]],
+                files:
+                    "100644 sha256-87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 a.txt\n",
+                commitMessage: "a\n"
+            });
+            assBaseLock(commits[3].locks[0], commits[3], {
+                parentLocks: [commits[2].locks[0]],
+                files:
+                    "100644 sha256-87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 a.txt\n",
+                commitMessage: "same-a\n"
+            });
         });
     });
 

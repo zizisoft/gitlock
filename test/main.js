@@ -439,6 +439,16 @@ describe("all", function() {
         });
     });
 
+    describe("same tree", () => {
+        it("main", () => {
+            rm.sync("temp");
+            $fs.mkdirSync("temp");
+            cmd("git init");
+            cmd("git commit -m first --allow-empty");
+            cmd("git commit -m second --allow-empty");
+        });
+    });
+
     if (process.argv[3] === "--long") {
         describe("long", () => {
             it("main", () => {

@@ -594,6 +594,39 @@ describe("all", function() {
         });
     });
 
+    describe("submodule should be ignored", () => {
+        it("main", () => {
+            rm.sync("temp");
+            $fs.mkdirSync("temp");
+            cmd("git init");
+            $fs.writeFileSync("temp/a.txt", "a\n");
+            cmd("git add . && git commit -m a");
+            $fs.mkdirSync("temp/subm");
+            cmd("git init", {cwd: "temp/subm"});
+            $fs.writeFileSync("temp/subm/sub-a.txt", "sub-a\n");
+            cmd("git add . && git commit -m init", {cwd: "temp/subm"});
+            cmd("git add . && git commit -m subm");
+            cmdGitlock();
+
+            let commits = getCommits();
+            ass.strictEqual(commits.length, 2);
+            assBaseLock(commits[0].locks[0], commits[0], {
+                parentLocks: [],
+                files:
+                    "100644 sha256-87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 a.txt\n",
+                commitMessage: "a\n"
+            });
+            assBaseLock(commits[1].locks[0], commits[1], {
+                parentLocks: [commits[0].locks[0]],
+                files:
+                    "100644 sha256-87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 a.txt\n",
+                commitMessage: "subm\n"
+            });
+
+            cmdGitlock("verify --all");
+        });
+    });
+
     if (process.argv[3] === "--long") {
         describe("long", () => {
             it("main", () => {

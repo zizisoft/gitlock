@@ -564,6 +564,7 @@ describe("all", function() {
             cmd("git add . && git commit -m a");
             cmd("git commit -m same-a --allow-empty");
             cmdGitlock();
+
             let commits = getCommits();
             ass.strictEqual(commits.length, 4);
             assBaseLock(commits[0].locks[0], commits[0], {
@@ -588,6 +589,8 @@ describe("all", function() {
                     "100644 sha256-87428fc522803d31065e7bce3cf03fe475096631e5e07bbd7a0fde60c4cf25c7 a.txt\n",
                 commitMessage: "same-a\n"
             });
+
+            cmdGitlock("verify --all");
         });
     });
 

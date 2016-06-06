@@ -225,11 +225,11 @@ We support 4 actions:
 - `c <line-index> <line-count>` (change)
 - `c-path <line-index> <path>` (change path)
 
-`<line-index>` is a zero-based number. The first line is 0, not 1.
+`<line-index>` is a zero-based number. The first line is `0`, not `1`.
 
 Both `<line-index>` and `<line-count>` mean the base, not the target.
 
-For `a`, the `<line-index>` means to insert before this line. To append to the end, set it to the max line index plus 1 (i.e. the total line count).
+For `a`, the `<line-index>` means to insert before this line. To append to the end, set it to the max line index plus 1 (i.e. the total line count). If the base has no line, then `<line-index>` is `0`.
 
 An `a` or `c` line must be followed by one or more file/directory lines.
 

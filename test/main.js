@@ -428,6 +428,17 @@ describe("all", function() {
             );
             ass.strictEqual($diff.applyDiff(base, diff), str);
 
+            base =
+                "100644 sha256-0e525d70686b35148ec01cc0f4c6fc1362e95397b31ed8c443c2089d371967dc a\n";
+            str =
+                "100644 sha256-9d5e59eb113d996f9ad757ef46456de89040c427202a6609fb2fff4770a6740a b\n";
+            diff = $diff.computeDiff(base, str);
+            ass.strictEqual(diff,
+                "c 0 1\n" +
+                "100644 sha256-9d5e59eb113d996f9ad757ef46456de89040c427202a6609fb2fff4770a6740a b\n"
+            );
+            ass.strictEqual($diff.applyDiff(base, diff), str);
+
             base = "";
             str =
                 "100644 sha256-0e525d70686b35148ec01cc0f4c6fc1362e95397b31ed8c443c2089d371967dc a\n" +
@@ -447,6 +458,20 @@ describe("all", function() {
             diff = $diff.computeDiff(base, str);
             ass.strictEqual(diff,
                 "d 0 2\n"
+            );
+            ass.strictEqual($diff.applyDiff(base, diff), str);
+
+            base =
+                "100644 sha256-0e525d70686b35148ec01cc0f4c6fc1362e95397b31ed8c443c2089d371967dc a\n" +
+                "100644 sha256-9d5e59eb113d996f9ad757ef46456de89040c427202a6609fb2fff4770a6740a b\n";
+            str =
+                "100644 sha256-5a92a041ec13b494c4c2544633ecf58125426ff50a7f1c70b5d805c6d4ae45cd c\n" +
+                "100644 sha256-c1e832fd54a0eedef78612f4a670083ec302a6843dba1e0001c3ddb27730ffa1 d\n";
+            diff = $diff.computeDiff(base, str);
+            ass.strictEqual(diff,
+                "c 0 2\n" +
+                "100644 sha256-5a92a041ec13b494c4c2544633ecf58125426ff50a7f1c70b5d805c6d4ae45cd c\n" +
+                "100644 sha256-c1e832fd54a0eedef78612f4a670083ec302a6843dba1e0001c3ddb27730ffa1 d\n"
             );
             ass.strictEqual($diff.applyDiff(base, diff), str);
         });

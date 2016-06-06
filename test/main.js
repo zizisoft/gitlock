@@ -446,6 +446,9 @@ describe("all", function() {
             cmd("git init");
             cmd("git commit -m first --allow-empty");
             cmd("git commit -m second --allow-empty");
+            $fs.writeFileSync("temp/a.txt", "a\n");
+            cmd("git add . && git commit -m a");
+            cmd("git commit -m same-a --allow-empty");
         });
     });
 

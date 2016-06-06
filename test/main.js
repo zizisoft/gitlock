@@ -518,11 +518,12 @@ describe("all", function() {
             cmd("git add . && git commit -m new");
             cmdGitlock();
             cmdGitlock("timestamp");
+            cmdGitlock("timestamp");
             let commits = getCommits();
             ass.strictEqual(commits.length, 8);
             assSimpleLocks(commits);
 
-            ass.strictEqual(commits[7].locks.length, 2);
+            ass.strictEqual(commits[7].locks.length, 3);
             assBaseLock(commits[7].locks[0], commits[7], {
                 parentLocks: [commits[6].locks[0]],
                 files:
@@ -545,6 +546,9 @@ describe("all", function() {
             });
             assTimestampLock(commits[7].locks[1], commits[7], {
                 parentLock: commits[7].locks[0]
+            });
+            assTimestampLock(commits[7].locks[2], commits[7], {
+                parentLock: commits[7].locks[1]
             });
 
             cmdGitlock("verify --all");

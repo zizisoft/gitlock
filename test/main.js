@@ -109,7 +109,7 @@ let assBaseLock = (lock, commit, expected) => {
         expected.parentLocks.map(m => "parent " + m.hash + "\\n").join("") +
         (expected.parentLocks.length === 0 ? "" : "\\n") +
         encodeRegexPart(expected.files) +
-        "\\n" +
+        (expected.files.length === 0 ? "" : "\\n") +
         "commit " + commit.id + "\\n" +
         "\\n" +
         encodeRegexPart(getBase64(expected.commitMessage)) + "\\n" +

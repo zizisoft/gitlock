@@ -243,7 +243,7 @@ There can be multiple `c-path` fields. `c-path` must appear at the top. On resto
 
 If it has multiple parents, the diff is based on the first parent. So it's better to set the first parent to be that giving the smallest diff.
 
-Similar to the full format, if there's no diff (committed using `--allow-empty`), then there should be no diff lines (also no empty line after it).
+If there's no diff (committed using `--allow-empty`), then the diff should be a single line with the content `no-diff`.
 
 Code Terminology
 ================

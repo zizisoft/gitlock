@@ -502,6 +502,7 @@ describe("all", function() {
 
         it("main", () => {
             createSimpleLocks();
+            cmdGitlock("verify");
             cmdGitlock("verify --all");
             $fs.mkdirSync("temp/proof");
             cmdGitlock("proof --all proof");

@@ -7,6 +7,8 @@ In essence, it just adds tags. It doesn't modify your repo's internals, so it's 
 
 There're 3 types of locks: base lock, timestamp lock, and signature lock (signature locks are not implemented yet).
 
+(Windows users: It's recommended to run the command in Git Bash, not `cmd`, because it relies on OpenSSL.)
+
 Synopsis 1:
 
 ```
@@ -177,7 +179,7 @@ gitlock config root-ca
 
 Set the location of root certificates. This is for verifying. `<path>` must be a directory containing certificate files in PEM format. If there's no `<path>`, it will set this config to nothing.
 
-IMPORTANT: You must use `c_rehash` to generate `xxxxxxxx.0` files (where `x` is a hex number) before OpenSSL can search this directory. For details see:
+IMPORTANT: You must use `c_rehash` to generate `xxxxxxxx.0` files (where `x` is a hex number, see below), or manually rename the certificate file to this format, before OpenSSL can search the directory. For details see:
 
 [https://www.openssl.org/docs/man1.0.2/apps/c_rehash.html](https://www.openssl.org/docs/man1.0.2/apps/c_rehash.html)
 
@@ -195,7 +197,7 @@ Synopsis 5:
 gitlock config lock-default <value>
 ```
 
-This represents the behavior when typing `gitlock` without any subcommand. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
+This represents the behavior when typing `gitlock` without any subcommand, or with `-m` or `commit` subcommands. Allowed values are "lock", "lock, timestamp", "lock, sign", "lock, sign, timestamp" (values containing "sign" are not implemented yet). The default is "lock".
 
 For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 

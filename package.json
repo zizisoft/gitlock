@@ -21,5 +21,8 @@
     "bin": {
         "gitlock": "./bin/gitlock"
     },
+    "scripts": {
+        "test": "mocha test/main"
+    },
     "preferGlobal": true
 }

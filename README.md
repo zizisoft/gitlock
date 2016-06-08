@@ -20,7 +20,7 @@ Installation
 ============
 
 - Make sure you have [Node.js](https://nodejs.org/) on your computer.
-- Use the command `npm install -g gitlock`.
+- Use the command `npm install -g gitlock` (may need `sudo`).
 
 Usage
 =====
@@ -176,7 +176,7 @@ Configuration
 
 The configuration is stored in the `.gitlock` directory under user's home directory. It doesn't modify your repo's directory.
 
-Synopsis 1:
+### Synopsis 1: config
 
 ```
 gitlock config
@@ -184,7 +184,7 @@ gitlock config
 
 Display the current config.
 
-Synopsis 2:
+### Synopsis 2: tsa
 
 ```
 gitlock config tsa <url>
@@ -192,7 +192,7 @@ gitlock config tsa <url>
 
 Set the URL of the trusted Time Stamping Authority. The default is `http://timestamp.comodoca.com/rfc3161`.
 
-Synopsis 3:
+### Synopsis 3: openssl
 
 ```
 gitlock config openssl <path>
@@ -206,7 +206,7 @@ On Windows, because the build process is a little more complicated, you can use 
 
 On Windows if you have Bash installed then you might already have OpenSSL. In Bash, type `openssl version` to see if it's installed and make sure the version is higher than 1.0.
 
-Synopsis 4:
+### Synopsis 4: root-ca
 
 ```
 gitlock config root-ca <path>
@@ -227,7 +227,7 @@ the-path-to-c_rehash/c_rehash .
 
 The generated symlink will be `2c3e3f84.0`.
 
-Synopsis 5:
+### Synopsis 5: lock-default
 
 ```
 gitlock config lock-default <value>
@@ -237,7 +237,7 @@ This represents the behavior when typing `gitlock` without any subcommand, or wi
 
 For example, if set to "lock, timestamp", when typing `gitlock` it will automatically timestamp after locking. But normally you don't need to set to this and then lock on every commit, as every timestamp will occupy 1-4 KB of space. A more reasonable strategy is to timestamp before push (i.e. before everyone know it).
 
-Synopsis 6:
+### Synopsis 6: push-default
 
 ```
 gitlock config push-default <value>
@@ -247,7 +247,7 @@ This represents the behavior before push when typing `gitlock push`. Allowed val
 
 For example, if set to "lock, timestamp", when typing `gitlock push` it will automatically timestamp after locking.
 
-Synopsis 7 (not implemented yet):
+### Synopsis 7 (not implemented yet): private
 
 ```
 gitlock config private <path>

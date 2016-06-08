@@ -1,3 +1,8 @@
+v0.2.1 (2016-06-08)
+===================
+
+- Fix a bug that prevents committing and tagging on Ubuntu.
+
 v0.2.0 (2016-06-08)
 ===================
 

@@ -80,7 +80,7 @@ IMPORTANT: If your repo is public, you should timestamp before push. Timestampin
 gitlock push
 ```
 
-Push commits and their tags (including locks). Before push, it can automatically sign or timestamp based on your configuration.
+Push commits and their tags (including locks). Before push, it can automatically sign or timestamp based on your configuration. There will be a "secure delay". See FAQ.
 
 If it hasn't been locked, it will lock first.
 

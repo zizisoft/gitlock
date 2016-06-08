@@ -14,7 +14,7 @@ There're 3 types of locks: base lock (with label `000`), timestamp lock, and sig
 
 (Windows users: It's recommended to run the command in Git Bash, not `cmd`, because it relies on OpenSSL.)
 
-### Synopsis 1: basic command
+### Synopsis 1: basic commands
 
 ```
 gitlock

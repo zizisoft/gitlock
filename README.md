@@ -297,3 +297,7 @@ FAQ
 **Q: Will the timestamp request disclose my private code?**
 
 A: No. It only sends a SHA-256 hash.
+
+**Q: What's "secure delay"?**
+
+A: It's an interval between timestamping time and pushing time. The purpose is to prevent others from timestamping immediately after you push. If there's no delay, then if someone uses a bot to listen to your Git address, he can modify your copyright info and timestamp at the same second of your push. The timestamp granularity is 1 second, so the delay should be at least 1 second. We set it to 5 seconds.

@@ -124,7 +124,7 @@ gitlock show <object>
 
 Show lock information in `<object>`. If `<object>` is a lock, it shows the lock's information. If `<object>` is a commit, then it shows information of all locks that belong to the commit. `<object>` can be any Git object, tag, or ref.
 
-### Synopsis 7: parse
+### Synopsis 8: parse
 
 ```
 gitlock parse <lock>
@@ -142,7 +142,7 @@ You can find lines like this in the output:
 
 It means the timestamp is signed on 2015-02-28 13:27:28 UTC Time.
 
-### Synopsis 8: list
+### Synopsis 9: list
 
 ```
 gitlock list
@@ -150,7 +150,7 @@ gitlock list
 
 List all locks in chronological order.
 
-### Synopsis 9: log
+### Synopsis 10: log
 
 ```
 gitlock log
@@ -158,7 +158,7 @@ gitlock log
 
 Show the commit logs in combination with lock names and other tag info.
 
-### Synopsis 10: remove
+### Synopsis 11: remove
 
 ```
 gitlock remove [--last | --commit | --all]

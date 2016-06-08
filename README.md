@@ -3,13 +3,18 @@ GitLock
 
 Add a SHA-256 wrapper to increase the security of Git. It can also protect your copyright by adding timestamps from trusted Time Stamping Authority.
 
-In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md".
+In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md". Take a brief look at the effect after locked:
 
-There're 3 types of locks: base lock, timestamp lock, and signature lock (signature locks are not implemented yet).
+- [Example lock list](https://github.com/zizisoft/gitlock/tags?after=gitlock-000-sha256-4e8abc37d6efd2f054aea3da5f10a6f7421fc5b9e09e5b4373ae08596e1b26ca) (click `...` to see lock details)
+- [Example commit with locks](https://github.com/zizisoft/gitlock/commit/1758cba8f9e2128e601dc3952110559a1b29a021)
+- [Example base lock](https://github.com/zizisoft/gitlock/releases/tag/gitlock-000-sha256-3da0b41c4dfe1ea226095e05ed73a2355fce9a70a0368ae10d90568342cc7332)
+- [Example timestamp lock](https://github.com/zizisoft/gitlock/releases/tag/gitlock-001-sha256-936fa8afe109de575e4e2ffc6758ac786d3fb7b8d48efafbee0c072b363201f5)
+
+There're 3 types of locks: base lock (with label `000`), timestamp lock, and signature lock (signature locks are not implemented yet).
 
 (Windows users: It's recommended to run the command in Git Bash, not `cmd`, because it relies on OpenSSL.)
 
-Synopsis 1:
+### Synopsis 1: basic command
 
 ```
 gitlock
@@ -34,7 +39,7 @@ Note that on the first time running it may take some minutes, because it will lo
 
 After locked, it can automatically sign or timestamp based on your configuration.
 
-Synopsis 2 (not implemented yet):
+### Synopsis 2 (not implemented yet): sign
 
 ```
 gitlock sign
@@ -44,7 +49,7 @@ Sign the current lock. But if you just want to prove your copyright, you really 
 
 If it hasn't been locked, it will lock first.
 
-Synopsis 3:
+### Synopsis 3: timestamp
 
 ```
 gitlock timestamp
@@ -56,7 +61,7 @@ You don't need to timestamp every lock / commit, as the timestamp can prove that
 
 IMPORTANT: If your repo is public, you should timestamp before push. Timestamping after push is weak.
 
-Synopsis 4:
+### Synopsis 4: push
 
 ```
 gitlock push
@@ -70,7 +75,7 @@ Note: You can also use `git push`, `git push --tags` or `git push --follow-tags`
 
 Also Note: If you have just locked an existing repo with all commits already pushed, you have to use `git push --tags` to push all locks (while `gitlock push` only pushes tags if the related commit is to be pushed). So when doing `git push --tags`, make sure other branches you don't intend to push don't have any locks yet.
 
-Synopsis 5:
+### Synopsis 5: verify
 
 ```
 gitlock verify
@@ -80,7 +85,7 @@ gitlock verify <commit>
 
 Verify the locks (including signatures and timestamps) of the current commit, or all commits from HEAD to first, or the specified commit.
 
-Synopsis 6:
+### Synopsis 6: proof
 
 ```
 gitlock proof <directory>
@@ -98,7 +103,7 @@ Note that generating a proof even for a single commit may take some time, becaus
 
 Caution: If using `--all`, the generated proof may be very big if every commit holds a large number of files. Here's the estimated proof size in bytes: `100 * number_of_files_in_each_commit * number_of_commits`. So, take care if you have 600,000 commits with each having 50,000 files, such as the Linux Kernel (the world's largest Git repo). In these cases, don't use `--all`.
 
-Synopsis 7:
+### Synopsis 7: show
 
 ```
 gitlock show <object>
@@ -106,7 +111,7 @@ gitlock show <object>
 
 Show lock information in `<object>`. If `<object>` is a lock, it shows the lock's information. If `<object>` is a commit, then it shows information of all locks that belong to the commit. `<object>` can be any Git object, tag, or ref.
 
-Synopsis 8:
+### Synopsis 8: list
 
 ```
 gitlock list
@@ -114,7 +119,7 @@ gitlock list
 
 List all locks in chronological order.
 
-Synopsis 9:
+### Synopsis 9: log
 
 ```
 gitlock log
@@ -122,7 +127,7 @@ gitlock log
 
 Show the commit logs in combination with lock names and other tag info.
 
-Synopsis 10:
+### Synopsis 10: remove
 
 ```
 gitlock remove [--last | --commit | --all]

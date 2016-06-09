@@ -178,7 +178,7 @@ gitlock tag <name>
 gitlock tag
 ```
 
-Add a simple annotated tag, or show tags (excluding locks) if `<name>` is ommited. When adding a tag, it's similar to `git tag <name>` except that it's for annotated tag, so it's equivalent to `git tag -a -m "" <name>`. Using annotated tags brings the benefit of automatic pushing tags when using `gitlock push`.
+Add a simple annotated tag, or show tags (but excluding lock tags) if `<name>` is ommited. When adding a tag, it's similar to `git tag <name>` except that it's for annotated tag, so it's equivalent to `git tag -a -m "" <name>`. Using annotated tags brings the benefit of automatic pushing tags when using `gitlock push`.
 
 This command provides an easy way to add an annotated tag with empty message, so we call it "simple annotated" tag. To have messages, you need to use `git tag`.
 

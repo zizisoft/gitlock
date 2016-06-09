@@ -5,7 +5,7 @@ Add a SHA-256 wrapper to increase the security of Git. It can also protect your 
 
 IMPORTANT: **How to prove your code is yours?** The only way is to prove you are the **first** one who claims its copyright. That's exactly what timestamps do. GitLock's timestamp isn't from your computer. It's from well-known CAs, such as Comodo, which can be trusted.
 
-In essence, it just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md". Take a brief look at the effect after locked:
+In essence, GitLock just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md". Take a brief look at the effect after locked:
 
 - [Example lock list](https://github.com/zizisoft/gitlock/tags?after=gitlock-000-sha256-4e8abc37d6efd2f054aea3da5f10a6f7421fc5b9e09e5b4373ae08596e1b26ca) (Click `...` to see lock details. Note that year 2005 isn't the timestamp date - it's just a fake date to isolate locks from releases for readability.)
 - [Example commit with locks](https://github.com/zizisoft/gitlock/commit/1758cba8f9e2128e601dc3952110559a1b29a021)
@@ -20,7 +20,7 @@ Installation
 ============
 
 - Make sure you have [Node.js](https://nodejs.org/) on your computer.
-- Use the command `npm install -g gitlock` (may need `sudo`).
+- Use the command `npm install -g gitlock` (may need `sudo`) to install GitLock.
 
 Usage
 =====
@@ -230,8 +230,7 @@ For example, for Comodo timestamps, you can:
 
 - On Windows 10, click start button, type `certmgr.msc` in the search box and press enter, then export the `UTN-USERFirst-Object` certificate.
 - On Mac OS, open KeyChain, then export the `UTN-USERFirst-Object` certificate.
-- Or download this certificate [here](https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/910/93/
-old-utn-userfirst-object).
+- Or download this certificate [here](https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/910/93/old-utn-userfirst-object).
 
 Then rename the file to "`2c3e3f84.0`" (Very important. The filename must be in `xxxxxxxx.0` format).
 
@@ -328,5 +327,4 @@ A: No. If it relies on any SHA-1 then the whole structure will be as weak as SHA
 
 **Q: Why so many root certificates are still in SHA-1?**
 
-A: Root certificates are special. System doesn't check root's signature. So it doesn't matter. See [this article](https://blog.qualys.com/ssllabs/2014/09/09/sha1-deprecation-what-you-need-to-
-know).
+A: Root certificates are special. System doesn't check root's signature. So it doesn't matter. See [this article](https://blog.qualys.com/ssllabs/2014/09/09/sha1-deprecation-what-you-need-to-know).

@@ -213,19 +213,28 @@ gitlock config root-ca <path>
 gitlock config root-ca
 ```
 
-Set the location of root certificates. This is for verifying. `<path>` must be a directory containing certificate files in PEM format. If there's no `<path>`, it will set this config to nothing.
+Set the location of root certificates. This is for verifying. `<path>` must be a directory containing certificate files in PEM (i.e. Base64-encoded) format. If there's no `<path>`, it will set this config to nothing.
 
-IMPORTANT: You must use `c_rehash` to generate `xxxxxxxx.0` files (where `x` is a hex number, see below), or manually rename the certificate file to this format, before OpenSSL can search the directory. For details see:
+For example, for Comodo timestamps, you can:
+
+- On Windows 10, click start button, type `certmgr.msc` in the search box and press enter, then export the `UTN-USERFirst-Object` certificate.
+- On Mac OS, open KeyChain, then export the `UTN-USERFirst-Object` certificate.
+- Or download this certificate [here](https://support.comodo.com/index.php?/Default/Knowledgebase/Article/View/910/93/
+old-utn-userfirst-object).
+
+Then rename the file to "`2c3e3f84.0`" (Very important. The filename must be in `xxxxxxxx.0` format).
+
+You can also use the command `c_rehash` to generate `xxxxxxxx.0` files. For details see:
 
 [https://www.openssl.org/docs/man1.0.2/apps/c_rehash.html](https://www.openssl.org/docs/man1.0.2/apps/c_rehash.html)
 
 Again, in Mac OS X do not use the built-in `c_rehash` command (this uses outdated MD5 to generate a different hash that newer version can't recognize). You should use the one bundled with OpenSSL v1.0+. For example, for Comodo's `UTN-USERFirst-Object` certificate, you can type this under the `<path>` directory:
 
 ```bash
-the-path-to-c_rehash/c_rehash .
+path-to-c_rehash/c_rehash .
 ```
 
-The generated symlink will be `2c3e3f84.0`.
+The generated symlink will be "`2c3e3f84.0`".
 
 ### Synopsis 5: lock-default
 
@@ -301,3 +310,12 @@ A: No. It only sends a SHA-256 hash.
 **Q: What's "secure delay"?**
 
 A: It's an interval between timestamping time and pushing time. The purpose is to prevent others from timestamping immediately after you push. If there's no delay, then if someone uses a bot to listen to your Git address, he can modify your copyright info and timestamp at the same second of your timestamp. The timestamp granularity is 1 second, so the delay should be at least 1 second. We set it to 5 seconds.
+
+**Q: Does the SHA-256 lock rely on any SHA-1?**
+
+A: No. If it relies on any SHA-1 then the whole structure will be as weak as SHA-1. For details see `architecture.md`'s FAQ.
+
+**Q: Why so many root certificates are still in SHA-1?**
+
+A: Root certificates are special. System doesn't check root's signature. So it doesn't matter. See [this article](https://blog.qualys.com/ssllabs/2014/09/09/sha1-deprecation-what-you-need-to-
+know).

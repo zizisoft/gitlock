@@ -150,15 +150,7 @@ gitlock list
 
 List all locks in chronological order.
 
-### Synopsis 10: log
-
-```
-gitlock log
-```
-
-Show the commit logs in combination with lock names and other tag info.
-
-### Synopsis 11: remove
+### Synopsis 10: remove
 
 ```
 gitlock remove [--last | --commit | --all]
@@ -170,6 +162,25 @@ Remove locks. If `--all`, it removes all locks in the repo. If `--commit`, it re
 If you specify a commit or lock, then: If it's a commit or base lock, it will remove this lock (or the lock that matches this commit) and all succeeding locks in the commit chain, without affecting preceding locks. If it's a timestamp / signature lock, it will remove this lock and all succeeding locks in the in-commit chain, without affecting preceding locks.
 
 You should be very careful in removing locks. Losing an intermediate lock will make a chain broken. There're two types of lock chains: commit chain and in-commit chain. Both are important. Particularly, don't move HEAD to an intermediate commit then `gitlock remove`.
+
+### Synopsis 11: log
+
+```
+gitlock log
+```
+
+Show the commit logs in combination with lock names and other tag info.
+
+### Synopsis 12: tag
+
+```
+gitlock tag <name>
+gitlock tag
+```
+
+Add a simple annotated tag, or show tags (excluding locks) if `<name>` is ommited. When adding a tag, it's similar to `git tag <name>` except that it's for annotated tag, so it's equivalent to `git tag -a -m "" <name>`. Using annotated tags brings the benefit of automatic pushing tags when using `gitlock push`.
+
+This command provides an easy way to add an annotated tag with empty message, so we call it "simple annotated" tag. To have messages, you need to use `git tag`.
 
 Configuration
 =============

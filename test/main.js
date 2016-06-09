@@ -70,7 +70,7 @@ let cmdGitlock = (subcommand, options) => {
 };
 
 let getLocks = commitId => {
-    let lockNames = execToLines(`git tag -l --points-at ${commitId} --sort=refname gitlock-*`);
+    let lockNames = execToLines(`git tag -l --points-at ${commitId} gitlock-*`).sort();
     return lockNames.map((lockName, index) => {
         let r = {name: lockName, content: execGitlock("show-content " + lockName)};
         r.hash = r.name.match(/^gitlock-\d\d\d-(.*)$/)[1];

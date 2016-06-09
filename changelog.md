@@ -2,6 +2,7 @@ v0.2.3 (2016-06-09)
 ===================
 
 - Further fix bugs when working with older Git.
+- Fix a bug of asynchronous tasks in `push`.
 
 v0.2.2 (2016-06-09)
 ===================

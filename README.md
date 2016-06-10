@@ -1,9 +1,9 @@
 GitLock
 =======
 
-Add a SHA-256 wrapper to increase the security of Git. It can also protect your copyright by adding timestamps from trusted Time Stamping Authority.
+GitLock adds a SHA-256 wrapper to increase the security of Git, and protects your copyright by adding timestamps from trusted authorities.
 
-IMPORTANT: **How to prove your code is yours?** The only way is to prove you are the **first** one who claims its copyright. That's exactly what timestamps do. GitLock's timestamp isn't from your computer. It's from well-known CAs, such as Comodo, which can be trusted.
+IMPORTANT: **How to prove your code is yours?** The only way is to prove that you are the **first** one who claims its copyright. That's exactly what timestamps do. GitLock's timestamp isn't from your computer. It's from well-known CAs, such as Comodo, which can be trusted.
 
 In essence, GitLock just adds tags. It doesn't modify your repo's internals, so it's safe - Your history and commit IDs will remain unchanged. It's compatible with Git (1.8.3 or higher), GitHub, and BitBucket. For details see "architecture.md". Take a brief look at the effect after locked:
 
@@ -14,7 +14,7 @@ In essence, GitLock just adds tags. It doesn't modify your repo's internals, so 
 
 There're 3 types of locks: base lock (with label `000`), timestamp lock, and signature lock (signature locks are not implemented yet).
 
-(Windows users: It's recommended to run the command in Git Bash, not `cmd`, because it relies on OpenSSL.)
+(Windows users: It's recommended to run GitLock in Git Bash, not `cmd`, because it relies on OpenSSL.)
 
 Installation
 ============
@@ -127,7 +127,7 @@ Show lock information in `<object>`. If `<object>` is a lock, it shows the lock'
 ### Synopsis 8: parse
 
 ```
-gitlock parse <lock>
+gitlock parse <timestamp-lock>
 ```
 
 Show timestamp information, such as the timestamp time.

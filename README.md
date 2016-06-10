@@ -100,9 +100,10 @@ Also Note: If you have just locked an existing repo with all commits already pus
 gitlock verify
 gitlock verify --all
 gitlock verify <commit>
+gitlock verify --to-head <commit>
 ```
 
-Verify the locks (including signatures and timestamps) of the current commit, or all commits from HEAD to first, or the specified commit.
+Verify the locks (including signatures and timestamps) of the current commit, or all commits from the first commit to HEAD, or the specified commit, or commits from the specified commit to HEAD.
 
 ### Synopsis 6: proof
 
@@ -110,9 +111,10 @@ Verify the locks (including signatures and timestamps) of the current commit, or
 gitlock proof <directory>
 gitlock proof --all <directory>
 gitlock proof <commit> <directory>
+gitlock proof --to-head <commit> <directory>
 ```
 
-Generate a proof (usually meaning a proof of copyright) of the current commit, or all commits from HEAD to first, or the specified commit. Then output the proof to a directory. `<directory>` must already exist.
+Generate a proof (usually meaning a proof of copyright) of the current commit, or all commits from the first commit to HEAD, or the specified commit, or commits from the specified commit to HEAD. Then output the proof to a directory. `<directory>` must already exist.
 
 Although people can use the `verify` subcommand to verify your repo, not all people trust GitLock. That's a problem. But luckily, people must trust the famous OpenSSL. So it's important that it can generate some proof that can be verified by OpenSSL.
 

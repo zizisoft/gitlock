@@ -162,7 +162,7 @@ describe("all", function() {
                         $base.cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
-                        $base.removeFile(`temp/new-${j}.txt`);
+                        $base.removeFile(`new-${j}.txt`);
                         $base.cmd("git add . && git commit -m new");
                     }
                 }

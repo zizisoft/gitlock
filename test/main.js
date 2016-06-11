@@ -1,12 +1,6 @@
 "use strict";
 
-let $fs = require("fs");
-let $cp = require("child_process");
 let assert = require("assert");
-let $os = require("os");
-let $path = require("path").posix;
-let $crypto = require("crypto");
-let rm = require("rimraf");
 let $diff = require("../lib/diff");
 
 let createSimpleRepo = () => {

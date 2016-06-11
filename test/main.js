@@ -5,7 +5,7 @@ let $diff = require("../lib/diff");
 
 let createSimpleRepo = () => {
     $base.reset();
-    cmd("git init");
+    $base.cmd("git init");
 
     $base.writeFile(".gitignore",
         "# OS X\n" +
@@ -23,7 +23,7 @@ let createSimpleRepo = () => {
         "\n" +
         "*.log\n"
     );
-    cmd("git add . && git commit -m init");
+    $base.cmd("git add . && git commit -m init");
 
     $base.writeFile("a.txt", "file body 1\n");
     $base.writeFile("我 你.txt", "文件 2\n");
@@ -34,37 +34,37 @@ let createSimpleRepo = () => {
     $base.writeFile("dir2/a.txt", "aaaaa\n");
     $base.writeFile("dir2/b.txt", "bbbbbbbb\n");
     $base.writeFile("dir2/c.txt", "ccccc\n");
-    cmd("git add .");
-    cmd("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
+    $base.cmd("git add .");
+    $base.cmd("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
 
-    cmd("git branch branch1");
-    cmd("git checkout branch1");
+    $base.cmd("git branch branch1");
+    $base.cmd("git checkout branch1");
     $base.writeFile("b", new Buffer([0, 1, 2]));
-    cmd("git add . && git commit -m b");
+    $base.cmd("git add . && git commit -m b");
 
     $base.writeFile("b1", new Buffer([0, 1, 2, 3]));
-    cmd("git add . && git commit -m b1");
+    $base.cmd("git add . && git commit -m b1");
 
-    cmd("git checkout master");
+    $base.cmd("git checkout master");
     $base.writeFile("c.txt", "c\n");
-    cmd("git add . && git commit -m c");
+    $base.cmd("git add . && git commit -m c");
 
-    cmd("git merge -m m branch1 && git branch -d branch1");
+    $base.cmd("git merge -m m branch1 && git branch -d branch1");
 
-    cmd("git branch branch2");
-    cmd("git checkout branch2");
+    $base.cmd("git branch branch2");
+    $base.cmd("git checkout branch2");
     $base.writeFile("d", "d\n");
-    cmd("git add . && git commit -m d");
+    $base.cmd("git add . && git commit -m d");
 
-    cmd("git checkout master");
+    $base.cmd("git checkout master");
     $base.writeFile("e.txt", "e\n");
-    cmd("git add . && git commit --allow-empty-message -m \"\"");
+    $base.cmd("git add . && git commit --allow-empty-message -m \"\"");
 };
 
 let createSimpleLocks = () => {
     createSimpleRepo();
-    cmdGitlock();
-    cmdGitlock("timestamp");
+    $base.cmdGitlock();
+    $base.cmdGitlock("timestamp");
 };
 
 let assSimpleLocks = (commits) => {
@@ -374,11 +374,11 @@ describe("all", function() {
 
         it("main", () => {
             createSimpleLocks();
-            cmdGitlock("verify");
-            cmdGitlock("verify --all");
+            $base.cmdGitlock("verify");
+            $base.cmdGitlock("verify --all");
             $base.mkdir("proof");
-            cmdGitlock("proof --all proof");
-            let commits = getCommits();
+            $base.cmdGitlock("proof --all proof");
+            let commits = $base.getCommits();
             assert.strictEqual(commits.length, 7);
             assSimpleLocks(commits);
         });
@@ -388,11 +388,11 @@ describe("all", function() {
         it("main", () => {
             createSimpleLocks();
             $base.writeFile("new.txt", "new\n");
-            cmd("git add . && git commit -m new");
-            cmdGitlock();
-            cmdGitlock("timestamp");
-            cmdGitlock("timestamp");
-            let commits = getCommits();
+            $base.cmd("git add . && git commit -m new");
+            $base.cmdGitlock();
+            $base.cmdGitlock("timestamp");
+            $base.cmdGitlock("timestamp");
+            let commits = $base.getCommits();
             assert.strictEqual(commits.length, 8);
             assSimpleLocks(commits);
 
@@ -425,24 +425,24 @@ describe("all", function() {
                 parentLock: commits[7].locks[1]
             });
 
-            cmdGitlock("verify --all");
+            $base.cmdGitlock("verify --all");
             $base.mkdir("proof");
-            cmdGitlock("proof --all proof");
+            $base.cmdGitlock("proof --all proof");
         });
     });
 
     describe("same tree", () => {
         it("main", () => {
             $base.reset();
-            cmd("git init");
-            cmd("git commit -m first --allow-empty");
-            cmd("git commit -m second --allow-empty");
+            $base.cmd("git init");
+            $base.cmd("git commit -m first --allow-empty");
+            $base.cmd("git commit -m second --allow-empty");
             $base.writeFile("a.txt", "a\n");
-            cmd("git add . && git commit -m a");
-            cmd("git commit -m same-a --allow-empty");
-            cmdGitlock();
+            $base.cmd("git add . && git commit -m a");
+            $base.cmd("git commit -m same-a --allow-empty");
+            $base.cmdGitlock();
 
-            let commits = getCommits();
+            let commits = $base.getCommits();
             assert.strictEqual(commits.length, 4);
             $base.assertBaseLock(commits[0].locks[0], {
                 parentLocks: [],
@@ -471,24 +471,24 @@ describe("all", function() {
                 commitMessage: "same-a\n"
             });
 
-            cmdGitlock("verify --all");
+            $base.cmdGitlock("verify --all");
         });
     });
 
     describe("submodule should be ignored", () => {
         it("main", () => {
             $base.reset();
-            cmd("git init");
+            $base.cmd("git init");
             $base.writeFile("a.txt", "a\n");
-            cmd("git add . && git commit -m a");
+            $base.cmd("git add . && git commit -m a");
             $base.mkdir("subm");
-            cmd("git init", {cwd: "temp/subm"});
+            $base.cmd("git init", {cwd: "temp/subm"});
             $base.writeFile("subm/sub-a.txt", "sub-a\n");
-            cmd("git add . && git commit -m init", {cwd: "temp/subm"});
-            cmd("git add . && git commit -m subm");
-            cmdGitlock();
+            $base.cmd("git add . && git commit -m init", {cwd: "temp/subm"});
+            $base.cmd("git add . && git commit -m subm");
+            $base.cmdGitlock();
 
-            let commits = getCommits();
+            let commits = $base.getCommits();
             assert.strictEqual(commits.length, 2);
             $base.assertBaseLock(commits[0].locks[0], {
                 parentLocks: [],
@@ -505,7 +505,7 @@ describe("all", function() {
                 commitMessage: "subm\n"
             });
 
-            cmdGitlock("verify --all");
+            $base.cmdGitlock("verify --all");
         });
     });
 
@@ -513,22 +513,22 @@ describe("all", function() {
         describe("long", () => {
             it("main", () => {
                 createSimpleRepo();
-                cmdGitlock();
+                $base.cmdGitlock();
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 500; j++) {
                         $base.writeFile(`new-${j}.txt`, Math.random().toString());
-                        cmd("git add . && git commit -m new");
+                        $base.cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
                         $base.writeFile(`new-${j}.txt`, Math.random().toString());
-                        cmd("git add . && git commit -m new");
+                        $base.cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
                         $base.removeFile(`temp/new-${j}.txt`);
-                        cmd("git add . && git commit -m new");
+                        $base.cmd("git add . && git commit -m new");
                     }
                 }
-                cmdGitlock();
+                $base.cmdGitlock();
             });
         });
     }

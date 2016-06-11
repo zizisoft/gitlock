@@ -203,6 +203,8 @@ let test = () => {
         let commits = $base.getCommits();
         assert.strictEqual(commits.length, 7);
         assertLocks(commits);
+        $base.modifyTimestampFirstData(commits[6].locks[1], "");
+        $base.cmdGitlock("verify --all");
     });
 };
 

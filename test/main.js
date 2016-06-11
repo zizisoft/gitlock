@@ -9,18 +9,7 @@ describe("all", function() {
 
     require("./diff");
 
-    describe("simple", () => {
-        it("main", () => {
-            $simple.createLocks();
-            $base.cmdGitlock("verify");
-            $base.cmdGitlock("verify --all");
-            $base.mkdir("proof");
-            $base.cmdGitlock("proof --all proof");
-            let commits = $base.getCommits();
-            assert.strictEqual(commits.length, 7);
-            $simple.assertLocks(commits);
-        });
-    });
+    $simple.describe();
 
     describe("simple with addition", () => {
         it("main", () => {

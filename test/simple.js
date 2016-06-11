@@ -194,17 +194,15 @@ let assertLocks = (commits) => {
 };
 
 let test = () => {
-    describe("simple", () => {
-        it("main", () => {
-            createLocks();
-            $base.cmdGitlock("verify");
-            $base.cmdGitlock("verify --all");
-            $base.mkdir("proof");
-            $base.cmdGitlock("proof --all proof");
-            let commits = $base.getCommits();
-            assert.strictEqual(commits.length, 7);
-            assertLocks(commits);
-        });
+    it("main", () => {
+        createLocks();
+        $base.cmdGitlock("verify");
+        $base.cmdGitlock("verify --all");
+        $base.mkdir("proof");
+        $base.cmdGitlock("proof --all proof");
+        let commits = $base.getCommits();
+        assert.strictEqual(commits.length, 7);
+        assertLocks(commits);
     });
 };
 

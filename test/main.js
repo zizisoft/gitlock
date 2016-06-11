@@ -7,9 +7,9 @@ let $simple = require("./simple");
 describe("all", function() {
     this.timeout(0);
 
-    require("./diff");
+    describe("diff", () => require("./diff"));
 
-    $simple.test();
+    describe("simple", () => $simple.test());
 
     describe("simple-based", () => require("./simple-based"));
 

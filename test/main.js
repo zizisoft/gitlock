@@ -2,6 +2,7 @@
 
 let assert = require("assert");
 let $base = require("./base");
+let $simple = require("./simple");
 
 describe("all", function() {
     this.timeout(0);

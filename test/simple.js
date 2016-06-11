@@ -192,3 +192,7 @@ let assertLocks = (commits) => {
         parentLock: commits[6].locks[0]
     });
 };
+
+exports.createRepo = createRepo;
+exports.createLocks = createLocks;
+exports.assertLocks = assertLocks;

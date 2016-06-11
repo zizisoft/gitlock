@@ -82,6 +82,12 @@ let cmdGitlock = (subcommand, options) => {
     return cmd("node ../bin/gitlock" + s, options);
 };
 
+let modifyLock = (name, storedContent) => {
+    let commitId = execToLine(`git for-each-ref --format=%(object) refs/tags/${name}`);
+    exec(`git tag -d ${name}`);
+    exec(`git tag -a -F - --cleanup=verbatim ${name} ${commitId}`, {input: storedContent});
+};
+
 let getLocks = commitId => {
     let lockNames = execToLines(`git tag -l --points-at ${commitId} gitlock-*`).sort();
     return lockNames.map((lockName, index) => {
@@ -157,6 +163,7 @@ exports.removeFile = removeFile;
 exports.reset = reset;
 exports.cmd = cmd;
 exports.cmdGitlock = cmdGitlock;
+exports.modifyLock = modifyLock;
 exports.getCommits = getCommits;
 exports.assertBaseLock = assertBaseLock;
 exports.assertTimestampLock = assertTimestampLock;

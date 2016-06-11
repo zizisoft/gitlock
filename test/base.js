@@ -15,7 +15,8 @@ let config = JSON.parse($fs.readFileSync(configPath, {encoding: "utf8"}));
 
 let mkdir = path => $fs.mkdirSync($path.join("temp", path));
 
-let writeFile = (path, content) => $fs.writeFileSync($path.join("temp", path), content);
+// `data` can be string or buffer
+let writeFile = (path, data) => $fs.writeFileSync($path.join("temp", path), data);
 
 let removeFile = path => $fs.unlinkSync($path.join("temp", path));
 
@@ -49,6 +50,7 @@ let exec = (command, options) => {
     return $cp.execSync(command, actualOptions);
 };
 
+// Similar to `exec`, but doesn't capture stdout and stderr.
 let cmd = (command, options) => {
     let actualOptions = {
         stdio: ["pipe", process.stdout, process.stderr]

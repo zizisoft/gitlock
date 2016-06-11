@@ -13,7 +13,7 @@ let createSimpleRepo = () => {
     $base.reset();
     cmd("git init");
 
-    $fs.writeFileSync("temp/.gitignore",
+    $base.writeFile(".gitignore",
         "# OS X\n" +
         ".DS_Store\n" +
         "\n" +
@@ -31,39 +31,39 @@ let createSimpleRepo = () => {
     );
     cmd("git add . && git commit -m init");
 
-    $fs.writeFileSync("temp/a.txt", "file body 1\n");
-    $fs.writeFileSync("temp/我 你.txt", "文件 2\n");
-    $fs.mkdirSync("temp/dir1");
-    $fs.writeFileSync("temp/dir1/a.txt", "aaaaa\n");
-    $fs.writeFileSync("temp/dir1/b.txt", "bbbbb\n");
-    $fs.mkdirSync("temp/dir2");
-    $fs.writeFileSync("temp/dir2/a.txt", "aaaaa\n");
-    $fs.writeFileSync("temp/dir2/b.txt", "bbbbbbbb\n");
-    $fs.writeFileSync("temp/dir2/c.txt", "ccccc\n");
+    $base.writeFile("a.txt", "file body 1\n");
+    $base.writeFile("我 你.txt", "文件 2\n");
+    $base.mkdir("dir1");
+    $base.writeFile("dir1/a.txt", "aaaaa\n");
+    $base.writeFile("dir1/b.txt", "bbbbb\n");
+    $base.mkdir("dir2");
+    $base.writeFile("dir2/a.txt", "aaaaa\n");
+    $base.writeFile("dir2/b.txt", "bbbbbbbb\n");
+    $base.writeFile("dir2/c.txt", "ccccc\n");
     cmd("git add .");
     cmd("git commit -F -", {input: "第二个\n哈哈\n\n哈哈"});
 
     cmd("git branch branch1");
     cmd("git checkout branch1");
-    $fs.writeFileSync("temp/b", new Buffer([0, 1, 2]));
+    $base.writeFile("b", new Buffer([0, 1, 2]));
     cmd("git add . && git commit -m b");
 
-    $fs.writeFileSync("temp/b1", new Buffer([0, 1, 2, 3]));
+    $base.writeFile("b1", new Buffer([0, 1, 2, 3]));
     cmd("git add . && git commit -m b1");
 
     cmd("git checkout master");
-    $fs.writeFileSync("temp/c.txt", "c\n");
+    $base.writeFile("c.txt", "c\n");
     cmd("git add . && git commit -m c");
 
     cmd("git merge -m m branch1 && git branch -d branch1");
 
     cmd("git branch branch2");
     cmd("git checkout branch2");
-    $fs.writeFileSync("temp/d", "d\n");
+    $base.writeFile("d", "d\n");
     cmd("git add . && git commit -m d");
 
     cmd("git checkout master");
-    $fs.writeFileSync("temp/e.txt", "e\n");
+    $base.writeFile("e.txt", "e\n");
     cmd("git add . && git commit --allow-empty-message -m \"\"");
 };
 
@@ -382,7 +382,7 @@ describe("all", function() {
             createSimpleLocks();
             cmdGitlock("verify");
             cmdGitlock("verify --all");
-            $fs.mkdirSync("temp/proof");
+            $base.mkdir("proof");
             cmdGitlock("proof --all proof");
             let commits = getCommits();
             assert.strictEqual(commits.length, 7);
@@ -393,7 +393,7 @@ describe("all", function() {
     describe("simple with addition", () => {
         it("main", () => {
             createSimpleLocks();
-            $fs.writeFileSync("temp/new.txt", "new\n");
+            $base.writeFile("new.txt", "new\n");
             cmd("git add . && git commit -m new");
             cmdGitlock();
             cmdGitlock("timestamp");
@@ -432,7 +432,7 @@ describe("all", function() {
             });
 
             cmdGitlock("verify --all");
-            $fs.mkdirSync("temp/proof");
+            $base.mkdir("proof");
             cmdGitlock("proof --all proof");
         });
     });
@@ -443,7 +443,7 @@ describe("all", function() {
             cmd("git init");
             cmd("git commit -m first --allow-empty");
             cmd("git commit -m second --allow-empty");
-            $fs.writeFileSync("temp/a.txt", "a\n");
+            $base.writeFile("a.txt", "a\n");
             cmd("git add . && git commit -m a");
             cmd("git commit -m same-a --allow-empty");
             cmdGitlock();
@@ -485,11 +485,11 @@ describe("all", function() {
         it("main", () => {
             $base.reset();
             cmd("git init");
-            $fs.writeFileSync("temp/a.txt", "a\n");
+            $base.writeFile("a.txt", "a\n");
             cmd("git add . && git commit -m a");
-            $fs.mkdirSync("temp/subm");
+            $base.mkdir("subm");
             cmd("git init", {cwd: "temp/subm"});
-            $fs.writeFileSync("temp/subm/sub-a.txt", "sub-a\n");
+            $base.writeFile("subm/sub-a.txt", "sub-a\n");
             cmd("git add . && git commit -m init", {cwd: "temp/subm"});
             cmd("git add . && git commit -m subm");
             cmdGitlock();
@@ -522,15 +522,15 @@ describe("all", function() {
                 cmdGitlock();
                 for (let i = 0; i < 3; i++) {
                     for (let j = 0; j < 500; j++) {
-                        $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
+                        $base.writeFile(`new-${j}.txt`, Math.random().toString());
                         cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
-                        $fs.writeFileSync(`temp/new-${j}.txt`, Math.random().toString());
+                        $base.writeFile(`new-${j}.txt`, Math.random().toString());
                         cmd("git add . && git commit -m new");
                     }
                     for (let j = 0; j < 500; j++) {
-                        $fs.unlinkSync(`temp/new-${j}.txt`);
+                        $base.removeFile(`temp/new-${j}.txt`);
                         cmd("git add . && git commit -m new");
                     }
                 }

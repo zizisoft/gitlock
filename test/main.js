@@ -1,6 +1,7 @@
 "use strict";
 
 let assert = require("assert");
+let $base = require("./base");
 
 let createSimpleRepo = () => {
     $base.reset();

@@ -150,3 +150,13 @@ let assertTimestampLock = (lock, expected) => {
     $fs.writeFileSync("temp/temp.dat", expected.parentLock.content);
     cmd(`"${config.openssl}" ts -verify -in temp.tsr -data temp.dat -CApath "${config.rootCa}"`);
 };
+
+exports.mkdir = mkdir;
+exports.writeFile = writeFile;
+exports.removeFile = removeFile;
+exports.reset = reset;
+exports.cmd = cmd;
+exports.cmdGitlock = cmdGitlock;
+exports.getCommits = getCommits;
+exports.assertBaseLock = assertBaseLock;
+exports.assertTimestampLock = assertTimestampLock;

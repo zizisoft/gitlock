@@ -193,7 +193,7 @@ let assertLocks = (commits) => {
     });
 };
 
-let describe = () => {
+let test = () => {
     describe("simple", () => {
         it("main", () => {
             createLocks();
@@ -211,4 +211,4 @@ let describe = () => {
 exports.createRepo = createRepo;
 exports.createLocks = createLocks;
 exports.assertLocks = assertLocks;
-exports.describe = describe;
+exports.test = test;

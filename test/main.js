@@ -9,7 +9,7 @@ describe("all", function() {
 
     require("./diff");
 
-    $simple.describe();
+    $simple.test();
 
     describe("simple with addition", () => {
         it("main", () => {

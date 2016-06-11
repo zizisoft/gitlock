@@ -1,3 +1,9 @@
+v1.0.0 (2016-06-11)
+===================
+
+- Add `--to-head` for `verify` and `proof`.
+- Auto timestamp verification.
+
 v0.3.1 (2016-06-09)
 ===================
 

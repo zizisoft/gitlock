@@ -3,11 +3,11 @@ GitLock
 
 GitLock adds a SHA-256 wrapper to increase the security of Git, and protects your copyright by adding timestamps from trusted authorities.
 
-You should consider using GitLock if:
+Please consider using GitLock if:
 
 - You're not satisfied with Git's SHA-1 security, which is [near broken](https://www.schneier.com/blog/archives/2015/10/sha-1_freestart.html);
 - You want to protect your copyright;
-- Or you hates to input messages of every commits in personal repos.
+- Or you hate to input messages of every commits in personal repos.
 
 IMPORTANT: **How to prove your code is yours?** The only way is to prove that you are the **first** one who claims its copyright. That's exactly what timestamps do. GitLock's timestamp isn't from your computer. It's from well-known CAs, such as Comodo, which can be trusted.
 

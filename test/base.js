@@ -87,8 +87,12 @@ let modifyLock = (lock, storedContent) => {
     exec(`git tag -a -F - --cleanup=verbatim ${lock.name} ${lock.commitId}`, {input: storedContent});
 };
 
+// `firstData` can be in "base64-..." string or buffer.
 let modifyTimestampFirstData = (lock, firstData) => {
-    modifyLock(lock, lock.content.replace(/base64-.*/, getBase64(firstData)));
+    modifyLock(lock, lock.content.replace(
+        /base64-.*/,
+        typeof firstData === "string" ? firstData : getBase64(firstData)
+    ));
 };
 
 let getLocks = commitId => {

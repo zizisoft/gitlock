@@ -3,6 +3,7 @@
 let assert = require("assert");
 let $base = require("./base");
 let $simple = require("./simple");
+let sampleTimestampData = require("./sample-timestamp-data");
 
 it("addition", () => {
     $simple.createLocks();
@@ -47,4 +48,7 @@ it("addition", () => {
     $base.cmdGitlock("verify --all");
     $base.mkdir("proof");
     $base.cmdGitlock("proof --all proof");
+
+    $base.modifyTimestampFirstData(commits[7].locks[2], sampleTimestampData);
+    $base.cmdGitlock("verify --all");
 });

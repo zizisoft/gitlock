@@ -50,5 +50,5 @@ it("addition", () => {
     $base.cmdGitlock("proof --all proof");
 
     $base.modifyTimestampFirstData(commits[7].locks[2], sampleTimestampData);
-    $base.cmdGitlock("verify --all");
+    assert.throws(() => $base.cmdGitlock("verify --all"));
 });

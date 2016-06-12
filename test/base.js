@@ -82,9 +82,14 @@ let cmdGitlock = (subcommand, options) => {
     return cmd("node ../bin/gitlock" + s, options);
 };
 
-let modifyLock = (lock, storedContent) => {
+// `content` must be the same as stored content. For now we can't make it too complicated.
+let modifyLock = (lock, content, modifiesHash) => {
+    if (modifiesHash === undefined) {
+        modifiesHash = true;
+    }
     exec(`git tag -d ${lock.name}`);
-    exec(`git tag -a -F - --cleanup=verbatim ${lock.name} ${lock.commitId}`, {input: storedContent});
+    let newName = modifiesHash ? lock.name.substr(0, 12) + computeHash(content) : lock.name;
+    exec(`git tag -a -F - --cleanup=verbatim ${newName} ${lock.commitId}`, {input: content});
 };
 
 // `firstData` can be in "base64-..." string or buffer.
